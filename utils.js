@@ -21,7 +21,7 @@ load("perfbench/default_values.js");
 
 mongo.namespace("mongo.benchmark.utils");
 
-mongo.benchmark.utils.experimentResult = new function() {
+mongo.benchmark.utils.experimentResult = function() {
     this.Id = 0;
     
     var mbrd = mongo.benchmark.result.defaults;
