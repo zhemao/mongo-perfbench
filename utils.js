@@ -55,7 +55,7 @@ mongo.benchmark.utils.insert = function(conn, doc) {
 mongo.benchmark.utils.addMoreOptions = function(type) {
  
     var mbtd = mongo.benchmark.test.defaults;
-    if (globalExtraOption == undefined)
+    if (typeof globalExtraOption === "undefined" || globalExtraOption === null)
         return type;
     
     if (globalExtraOption.mongo == undefined)
