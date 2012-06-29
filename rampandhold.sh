@@ -8,6 +8,11 @@ MONGO_DIR="$(dirname $PERFBENCH_DIR)"
 
 source "$PERFBENCH_DIR/shellrc.sh"
 
+if [ -z $1 ]; then
+    echo "Usage: $0 user@hostname"
+    exit 1
+fi
+
 MONGO_SERVER=$1
 SERVER_INFO='{hostname: "localhost:27018"}'
 
