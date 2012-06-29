@@ -6,6 +6,8 @@
 PERFBENCH_DIR="$(dirname $0)"
 MONGO_DIR="$(dirname $PERFBENCH_DIR)"
 
+source "$PERFBENCH_DIR/shellrc.sh"
+
 MONGO_SERVER=$1
 SERVER_INFO='{hostname: "localhost:27018"}'
 
@@ -25,6 +27,8 @@ fi
 for i in {1..24}; do
     ssh $MONGO_SERVER ~/mongo/perfbench/cleanandrestart.sh
     configstr="globalExtraOption = {numThreads: $i, testServerInfo: $SERVER_INFO}"
-    mongo localhost:27018 --eval "$configstr" perfbench/findone.js
+    for operation in insert update findone; do
+        mongo localhost:27018 --eval "$configstr" perfbench/$operation.js
+    done
 done
 
