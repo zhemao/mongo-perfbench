@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "$(dirname $0)/shellrc.sh"
+
 if lsof -i :27017 > /dev/null; then
     killall mongod
 fi
