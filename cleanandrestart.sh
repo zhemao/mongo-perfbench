@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname $0)/shellrc.sh"
+source "$(dirname $0)/pbrc.sh"
 
 if lsof -i :27017 > /dev/null; then
     killall mongod
