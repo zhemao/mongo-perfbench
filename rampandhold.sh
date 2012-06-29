@@ -29,8 +29,11 @@ if ! lsof -i :27018 > /dev/null; then
     ssh -fN -L 27018:localhost:27017 $MONGO_SERVER
 fi
 
+echo "Ramping up..."
+
 for i in {1..24}; do
     ssh $MONGO_SERVER ~/mongo/perfbench/cleanandrestart.sh
+    echo "Load testing with $i threads"
     configstr="globalExtraOption = {numThreads: $i, testServerInfo: $SERVER_INFO}"
     for operation in insert update findone; do
         mongo localhost:27018 --eval "$configstr" perfbench/$operation.js
