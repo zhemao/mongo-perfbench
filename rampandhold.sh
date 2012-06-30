@@ -23,3 +23,5 @@ mongoexport -d experiment -c results -o testinfo.json
 
 echo "Holding..."
 nohup bash "$(dirname $0)/holdit.sh" $MONGO_SERVER &
+
+echo -e $! > ~/holdit.pid
