@@ -17,5 +17,5 @@ echo "Ramping up..."
 bash "$(dirname $0)/rampup.sh" $MONGO_SERVER
 
 echo "Holding..."
-bash "$(dirname $0)/holdit.sh" $MONGO_SERVER
+nohup bash "$(dirname $0)/holdit.sh" $MONGO_SERVER &
 
