@@ -15,6 +15,6 @@ cd "$MONGO_DIR"
 
 configstr="globalExtraOption = {numThreads: 24, testServerInfo: $SERVER_INFO}"
 
-while true: do
+while true; do
     mongo localhost:27018 --eval "$configstr" perfbench/findone.js
 done
