@@ -13,6 +13,8 @@ bash "$(dirname $0)/startup.sh" $MONGO_SERVER
 # cd into the mongo repository
 cd "$MONGO_DIR"
 
-configstr="globalExtraOption = {numThreads: 24, numSeconds: 86400, testServerInfo: $SERVER_INFO}"
+configstr="globalExtraOption = {numThreads: 24, testServerInfo: $SERVER_INFO}"
 
-mongo localhost:27018 --eval "$configstr" perfbench/findone.js
+while true: do
+    mongo localhost:27018 --eval "$configstr" perfbench/findone.js
+done
