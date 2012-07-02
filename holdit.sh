@@ -15,6 +15,8 @@ cd "$MONGO_DIR"
 
 configstr="globalExtraOption = {numThreads: 24, testServerInfo: $SERVER_INFO}"
 
+echo -e $$ > ~/holdit.pid
+
 while true; do
     mongo localhost:27018 --eval "$configstr" perfbench/findone.js
 	if [ $? != 0 ]; then
