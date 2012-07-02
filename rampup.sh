@@ -15,6 +15,9 @@ cd "$MONGO_DIR"
 
 for i in {1..24}; do
     ssh $MONGO_SERVER ~/mongo/perfbench/cleanandrestart.sh
+	if [ $? != 0 ]; then
+		exit $?
+	fi
     echo "Load testing with $i threads"
     configstr="globalExtraOption = {numThreads: $i, testServerInfo: $SERVER_INFO}"
     for operation in insert update findone; do
