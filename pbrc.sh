@@ -9,7 +9,5 @@ if [ -z "$PBRC" ]; then
         export PATH=$HOME/bin:$PATH
     fi
 
-    SERVER_INFO='{hostname: "localhost:27018"}'
-
-    export MONGO_DIR SERVER_INFO
+    export MONGO_DIR 
 fi

@@ -16,6 +16,8 @@ bash "$(dirname $0)/startup.sh" $MONGO_SERVER
 # cd into the mongo repository
 cd "$MONGO_DIR"
 
+SERVER_INFO='{hostname: localhost:27018}'
+
 configstr="globalExtraOption = {numThreads: 24, testServerInfo: $SERVER_INFO}"
 
 echo -e $$ > ~/holdit.pid

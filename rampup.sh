@@ -19,6 +19,8 @@ bash "$(dirname $0)/startup.sh" $MONGO_SERVER
 # cd into the mongo repository
 cd "$MONGO_DIR"
 
+SERVER_INFO=$(ssh $MONGO_SERVER ~/mongo/perfbench/getserverinfo.sh)
+
 for i in {1..24}; do
     ssh $MONGO_SERVER ~/mongo/perfbench/cleanandrestart.sh
     echo "Load testing with $i threads"
