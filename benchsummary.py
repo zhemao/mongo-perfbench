@@ -3,13 +3,21 @@
 import json
 import sys
 
+name_to_op = {
+    'findOne': 'query',
+    'insert': 'insert',
+    'update': 'update',
+    'inplaceUpdate': 'update',
+}
+
 def summarize_data(data):
     name = data['name']
+    op = name_to_op[name]
     numThreads = data['numThreads']
     numTrials = data['numTrials']
-    avg = sum([trial[name] for trial in data['trials']]) / numTrials
+    avg = sum([trial[op] for trial in data['trials']]) / numTrials
 
-    return '%s\t%d\t%f' % (name, numThreads, avg)
+    return '%s\t\t%d\t\t%f' % (name, numThreads, avg)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
@@ -17,7 +25,7 @@ if __name__ == '__main__':
     else:
         f = sys.stdin
 
-    print 'operation\t# threads\tavg latency'
+    print 'test name\t# threads\tavg latency'
 
     for line in f:
         data = json.loads(line.strip())
