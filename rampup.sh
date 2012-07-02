@@ -23,7 +23,7 @@ for i in {1..24}; do
     echo "Load testing with $i threads"
     configstr="globalExtraOption = {numThreads: $i, testServerInfo: $SERVER_INFO}"
     for operation in insert update findone; do
-        mongo localhost:27018 --eval "$configstr" perfbench/$operation.js
+        mongo --eval "$configstr" perfbench/$operation.js
     done
 done
 
