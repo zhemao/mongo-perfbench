@@ -19,7 +19,4 @@ echo -e $$ > ~/holdit.pid
 
 while true; do
     mongo --eval "$configstr" perfbench/findone.js
-	if [ $? != 0 ]; then
-		exit $?
-	fi
 done
