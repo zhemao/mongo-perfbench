@@ -11,9 +11,9 @@ MONGOD_SERVER=$(head -n 1 $HOSTS_FILE)
 
 tail -n +2 $HOSTS_FILE | while read host; do
 	echo "$host -> $MONGOD_SERVER"
-	ssh $host "~/mongo/perfbench/rampandhold.sh $MONGOD_SERVER"
-	scp ${host}:testinfo.json $host-testinfo.json
-	scp ${host}:holdit.pid $host-holdit.pid
+	ssh $host "~/mongo/perfbench/rampup.sh $MONGOD_SERVER"
+	scp ${host}:results.json $host-results.json
+	ssh -f $host "~/mongo/perfbench/holdit.sh $MONGOD_SERVER" 
 done
 
 tail -n +2 $HOSTS_FILE | while read host; do

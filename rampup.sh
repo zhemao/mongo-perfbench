@@ -7,6 +7,8 @@ fi
 
 MONGO_SERVER=$1
 
+bash "$(dirname $0)/cleanandrestart.sh"
+
 source "$(dirname $0)/pbrc.sh"
 bash "$(dirname $0)/startup.sh" $MONGO_SERVER
 
@@ -25,3 +27,4 @@ for i in {1..24}; do
     done
 done
 
+mongoexport -d experiment -c results -o ~/results.json
