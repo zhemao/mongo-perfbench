@@ -19,7 +19,7 @@ echo "Ramping up..."
 bash "$(dirname $0)/rampup.sh" $MONGO_SERVER
 
 echo "Dumping data"
-mongoexport -d experiment -c results -o testinfo.json
+mongoexport -d experiment -c results -o ~/testinfo.json
 
 echo "Holding..."
 nohup bash "$(dirname $0)/holdit.sh" $MONGO_SERVER &
