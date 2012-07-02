@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Starts mongod and the ssh tunnel if necessary
+
 if [ -z $1 ]; then
     echo "Usage: $0 user@hostanme"
     exit 1

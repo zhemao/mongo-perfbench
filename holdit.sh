@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Runs the javascript benchmarks with 24 threads in an infinite loop
+# The pid is written to ~/holdit.pid so that the script can be killed later
+
 if [ -z $1 ]; then
     echo "Usage: $0 user@hostname"
     exit 1

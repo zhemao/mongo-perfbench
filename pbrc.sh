@@ -1,3 +1,5 @@
+# Sets some common values used by different scripts
+
 if [ -z "$PBRC" ]; then
     export PBRC=1
 
