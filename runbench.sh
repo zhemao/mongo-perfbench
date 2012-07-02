@@ -2,6 +2,7 @@
 
 if [ -z "$1" ]; then
 	echo "Must specify hosts file"
+	exit 1
 fi
 
 HOSTS_FILE=$1
