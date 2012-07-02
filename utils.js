@@ -86,22 +86,22 @@ mongo.benchmark.utils.addMoreOptions = function(type) {
     if (globalExtraOption.numOps == undefined)
         type.numOps = mbtd.numOps;
     else
-        type.numOps = mbtd.numOps;
+        type.numOps = globalExtraOption.numOps;
     
     if (globalExtraOption.numThreads == undefined)
         type.numThreads = mbtd.numThreads;
     else
-        type.numThreads = mbtd.numThreads;
-    
+        type.numThreads = globalExtraOption.numThreads;
+
     if (globalExtraOption.numberDatabases == undefined)
         type.numberDatabases = mbtd.numberDatabases;
     else
-        type.numberDatabases = mbtd.numberDatabases;
+        type.numberDatabases = globalExtraOption.numberDatabases;
 
     if (globalExtraOption.numSeconds == undefined)
         type.numSeconds = mbtd.numSeconds;
     else
-        type.numSeconds = mbtd.numSeconds;
+        type.numSeconds = globalExtraOption.numSeconds;
     
     // --------------- begin testServerInfo ------------------------
     
