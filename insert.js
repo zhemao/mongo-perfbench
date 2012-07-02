@@ -98,7 +98,6 @@ mongo.benchmark.insert.run = function() {
         
         if (mbrd.saveResult == "yes") {
             var query = { _id : experimentResult.Id };
-            printjson(query);
             experimentResult.addToTrials(conn, query, result);
         }
         else {
