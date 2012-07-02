@@ -19,7 +19,8 @@ done
 
 tail -n +2 $HOSTS_FILE | while read host; do
 	if [ -f $host-holdit.pid ]; then
-		ssh $host "kill $(cat $host-holdit.pid)" 
+		echo "Killing holdit.sh on $host"
+		ssh -n $host "kill $(cat $host-holdit.pid)" 
 		rm $host-holdit.pid
 	fi
 done
