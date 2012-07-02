@@ -11,13 +11,15 @@ MONGOD_SERVER=$(head -n 1 $HOSTS_FILE)
 
 tail -n +2 $HOSTS_FILE | while read host; do
 	echo "$host -> $MONGOD_SERVER"
-	ssh $host "~/mongo/perfbench/rampup.sh $MONGOD_SERVER"
+	ssh -n $host "~/mongo/perfbench/rampup.sh $MONGOD_SERVER"
 	scp ${host}:results.json $host-results.json
-	ssh -f $host "~/mongo/perfbench/holdit.sh $MONGOD_SERVER" 
+	ssh -n $host "nohup ~/mongo/perfbench/holdit.sh $MONGOD_SERVER < /dev/null &> ~/holdit.log &" 
+	scp ${host}:holdit.pid $host-holdit.pid
 done
 
 tail -n +2 $HOSTS_FILE | while read host; do
 	if [ -f $host-holdit.pid ]; then
 		ssh $host "kill $(cat $host-holdit.pid)" 
+		rm $host-holdit.pid
 	fi
 done
