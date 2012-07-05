@@ -16,7 +16,7 @@ bash "$(dirname $0)/startup.sh" $MONGO_SERVER
 # cd into the mongo repository
 cd "$MONGO_DIR"
 
-SERVER_INFO='{hostname: localhost:27018}'
+SERVER_INFO='{hostname: "localhost:27018"}'
 
 configstr="globalExtraOption = {numThreads: $MAXTHREADS, numSeconds: 7200, testServerInfo: $SERVER_INFO}"
 
