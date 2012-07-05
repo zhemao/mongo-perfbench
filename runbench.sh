@@ -29,7 +29,7 @@ done
 tail -n +2 $HOSTS_FILE | while read host; do
     if [ -f $host-holdit.pid ]; then
         echo "Killing holdit.sh on $host"
-        ssh -n $host "kill $(cat $host-holdit.pid)" 
+        ssh -n $host "kill $(cat $host-holdit.pid) && killall mongo" 
         rm $host-holdit.pid
     fi
 done
