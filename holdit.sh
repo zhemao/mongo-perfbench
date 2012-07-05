@@ -22,6 +22,8 @@ configstr="globalExtraOption = {numThreads: $MAXTHREADS, numSeconds: 7200, testS
 
 echo -e $$ > ~/holdit.pid
 
+echo "Holding at $MAXTHREADS threads"
+
 while true; do
     mongo --eval "$configstr" perfbench/findone.js
 done
