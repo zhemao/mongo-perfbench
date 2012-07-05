@@ -18,7 +18,7 @@ cd "$MONGO_DIR"
 
 SERVER_INFO='{hostname: localhost:27018}'
 
-configstr="globalExtraOption = {numThreads: 24, numSeconds: 7200, testServerInfo: $SERVER_INFO}"
+configstr="globalExtraOption = {numThreads: $MAXTHREADS, numSeconds: 7200, testServerInfo: $SERVER_INFO}"
 
 echo -e $$ > ~/holdit.pid
 

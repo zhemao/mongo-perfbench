@@ -6,8 +6,10 @@ if [ -z "$PBRC" ]; then
     MONGO_DIR="$(dirname $0)/.."
 
     if [ -d $HOME/bin ] && [ -z `echo $PATH | grep $HOME/bin ` ]; then
-        export PATH=$HOME/bin:$PATH
+        PATH=$HOME/bin:$PATH
     fi
 
-    export MONGO_DIR 
+    [ -z $MAXTHREADS ] && MAXTHREADS=24
+
+    export MONGO_DIR PATH MAXTHREADS
 fi
