@@ -14,7 +14,7 @@ def summarize_data(data):
     avglat = sum([trial[name + 'LatencyAverageMs'] 
                     for trial in data['trials']]) / numTrials
 
-    return '%s\t\t%d\t\t%.3f\t%.3f' % (name, numThreads, avgops, avglat)
+    return '%s\t\t%d\t\t%6d\t\t%6d' % (name, numThreads, avgops, avglat)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
@@ -22,7 +22,7 @@ if __name__ == '__main__':
     else:
         f = sys.stdin
 
-    print 'test name\t# threads\tavg ops\t\tavg latency (us)'
+    print 'test name\t# threads\tavg operations\tavg latency (us)'
 
     for line in f:
         data = json.loads(line.strip())
