@@ -9,6 +9,6 @@ if lsof -i :27017 > /dev/null; then
 fi
 
 rm -rf ~/datadb
-mkdir ~/datadb
+cp -r ~/basedb ~/datadb
 
 mongod -f ~/.mongod.conf --fork
