@@ -43,9 +43,9 @@ mongo.benchmark.test.defaults = {
     dataSetFitsInRam : "yes",
     otherOpsRunning : "no",
     dbprefix : "small",
-    numTrials : 4,
+    numTrials : 5,
     numOps : 60000,
     numThreads : 8,
     numberDatabases : 5,
-    numSeconds : 2
+    numSeconds : 120
 };
