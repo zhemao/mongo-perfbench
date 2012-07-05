@@ -22,7 +22,7 @@ if __name__ == '__main__':
     else:
         f = sys.stdin
 
-    print 'test name\t# threads\tavg ops\t\tavg latency'
+    print 'test name\t# threads\tavg ops\t\tavg latency (us)'
 
     for line in f:
         data = json.loads(line.strip())
