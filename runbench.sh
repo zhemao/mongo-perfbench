@@ -18,9 +18,10 @@ i=1
 
 tail -n +2 $HOSTS_FILE | while read host; do
     echo "$host -> $MONGOD_SERVER"
-    ssh -n $host "~/mongo/perfbench/rampup.sh $MONGOD_SERVER"
+    ssh -n $host "MAXTHREADS=$MAXTHREADS ~/mongo/perfbench/rampup.sh $MONGOD_SERVER"
     scp ${host}:results.json load$i-results.json
-    ssh -n $host "nohup ~/mongo/perfbench/holdit.sh $MONGOD_SERVER < /dev/null &> ~/holdit.log &" 
+    ssh -n $host "MAXTHREADS=$MAXTHREADS nohup ~/mongo/perfbench/holdit.sh \
+                    $MONGOD_SERVER < /dev/null &> ~/holdit.log &" 
     scp ${host}:holdit.pid $host-holdit.pid
     i=$(($i+1))
 done
