@@ -1,0 +1,41 @@
+How to use performance benchmarking scripts
+
+Step 1: Mongodb setup
+
+Install all the mongodb executables on each of the servers you are using.
+The executables should be on the user's path. You can also place them in
+$HOME/bin. The scripts will add this directory to the path before running.
+
+Create a mongodb configuration file in ~/.mongod.conf. 
+See http://www.mongodb.org/display/DOCS/File+Based+Configuration for the syntax.
+
+If you are running on ec2, I suggest that you use the nojournal option. 
+Otherwise, mongod will spend a very long time preallocating journal files
+on startup.
+
+Step 2: Script installation
+
+Clone the mongodb repo (with the perfbranch changes) to ~/mongo on each of the
+servers. 
+
+Step 3: Local configuration
+
+Create a text file on your computer that lists the hosts involved in the test.
+The hostname of the database server should be first, followed by all of the
+load test servers.
+
+Step 4: Launch!
+
+Run the runbench.sh script and pass it the path to the hosts file. 
+
+
+Detailed info
+
+The workhorses of the performance benchmarking are the rampup.sh and holdit.sh
+scripts.
+
+rampup.sh runs the benchmarking scripts against the server repeatedly with the 
+number of threads incrementing from 1 to $MAXTHREADS.
+
+holdit.sh runs the findone.js benchmark in an infinite while loop with
+$MAXTHREADS threads

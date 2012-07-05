@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # This script runs the javascript benchmarks in a loop
-# The number of threads used on each run iterate from 1 to 24
+# The number of threads used on each run iterate from 1 to $MAXTHREADS
 # After finishing the loop, the results will be dumped to ~/results.json
 
 if [ -z $1 ]; then
