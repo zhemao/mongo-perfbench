@@ -16,7 +16,7 @@ def summarize_data(data):
 
     return '%s\t\t%d\t\t%6d\t\t%6d' % (name, numThreads, avgops, avglat)
 
-if __name__ == '__main__':
+def main():
     if len(sys.argv) > 1:
         f = open(sys.argv[1])
     else:
@@ -27,3 +27,6 @@ if __name__ == '__main__':
     for line in f:
         data = json.loads(line.strip())
         print summarize_data(data)
+
+if __name__ == '__main__':
+    main()
