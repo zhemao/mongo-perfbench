@@ -13,6 +13,6 @@ fi
 
 sleep 1
 
-rsync -avz --delete ~/basedb/* ~/datadb
+rsync -avz --delete /mnt/basedb/* ~/datadb
 
 mongod -f ~/.mongod.conf --fork
