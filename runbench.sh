@@ -6,7 +6,7 @@
 # The hosts on the remaining lines are the load testing servers
 
 if [ -z "$1" ]; then
-    echo "Must specify hosts file"
+    echo "Must specify configuration file"
     exit 1
 fi
 
