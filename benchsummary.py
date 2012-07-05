@@ -3,21 +3,18 @@
 import json
 import sys
 
-name_to_op = {
-    'findOne': 'query',
-    'insert': 'insert',
-    'update': 'update',
-    'inplaceUpdate': 'update',
-}
+def total_ops(trial):
+    return sum(trial[op] for op in ['query', 'insert', 'update', 'delete', 'command'])
 
 def summarize_data(data):
     name = data['name']
-    op = name_to_op[name]
     numThreads = data['numThreads']
     numTrials = data['numTrials']
-    avg = sum([trial[op] for trial in data['trials']]) / numTrials
+    avgops = sum([total_ops(trial) for trial in data['trials']]) / numTrials
+    avglat = sum([trial[name + 'LatencyAverageMs'] 
+                    for trial in data['trials']]) / numTrials
 
-    return '%s\t\t%d\t\t%f' % (name, numThreads, avg)
+    return '%s\t\t%d\t\t%.3f\t%.3f' % (name, numThreads, avgops, avglat)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
@@ -25,7 +22,7 @@ if __name__ == '__main__':
     else:
         f = sys.stdin
 
-    print 'test name\t# threads\tavg latency'
+    print 'test name\t# threads\tavg ops\t\tavg latency'
 
     for line in f:
         data = json.loads(line.strip())
