@@ -15,8 +15,10 @@ on startup.
 
 Step 2: Script installation
 
-Clone the mongodb repo (with the perfbranch changes) to ~/mongo on each of the
-servers. 
+Clone the mongodb repo (with the perfbench changes) to ~/mongo on each of the
+servers. The following command should do it.
+
+    git clone https://github.com/zhemao/mongo.git -b perfbench ~/mongo
 
 Step 3: Local configuration
 
@@ -39,3 +41,10 @@ number of threads incrementing from 1 to $MAXTHREADS.
 
 holdit.sh runs the findone.js benchmark in an infinite while loop with
 $MAXTHREADS threads
+
+There are also a few helper scripts
+
+startup.sh ensures that the ssh tunnel to the mongod server and the local
+mongod are running
+
+cleanandrestart.sh stops mongod, deletes its data files, and then restarts
