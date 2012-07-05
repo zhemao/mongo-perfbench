@@ -16,17 +16,17 @@ MONGOD_SERVER=$(head -n 1 $HOSTS_FILE)
 
 i=1
 
-tail -n +2 $HOSTS_FILE | while read host; do
+tail -n +2 $HOSTS_FILE | while read host operation threads; do
     echo "$host -> $MONGOD_SERVER"
-    ssh -n $host "MAXTHREADS=$MAXTHREADS ~/mongo/perfbench/rampup.sh $MONGOD_SERVER"
+    ssh -n $host "~/mongo/perfbench/rampup.sh $MONGOD_SERVER $operation $threads"
     scp ${host}:results.json load$i-results.json
-    ssh -n $host "MAXTHREADS=$MAXTHREADS nohup ~/mongo/perfbench/holdit.sh \
-                    $MONGOD_SERVER < /dev/null &> ~/holdit.log &" 
+    ssh -n $host "nohup ~/mongo/perfbench/holdit.sh $MONGOD_SERVER $operation $threads \
+                     < /dev/null &> ~/holdit.log &" 
     scp ${host}:holdit.pid $host-holdit.pid
     i=$(($i+1))
 done
 
-tail -n +2 $HOSTS_FILE | while read host; do
+tail -n +2 $HOSTS_FILE | while read host operation threads; do
     if [ -f $host-holdit.pid ]; then
         echo "Killing holdit.sh on $host"
         ssh -n $host "kill $(cat $host-holdit.pid) && killall mongo" 

@@ -8,6 +8,4 @@ if [ -z "$PBRC" ]; then
     if [ -d $HOME/bin ] && [ -z `echo $PATH | grep $HOME/bin ` ]; then
         export PATH=$HOME/bin:$PATH
     fi
-
-    [ -z $MAXTHREADS ] && export MAXTHREADS=24
 fi

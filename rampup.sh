@@ -4,12 +4,14 @@
 # The number of threads used on each run iterate from 1 to $MAXTHREADS
 # After finishing the loop, the results will be dumped to ~/results.json
 
-if [ -z $1 ]; then
-    echo "Usage: $0 user@hostname"
+if [ -z $3 ]; then
+    echo "Usage: $0 user@hostname operation numthreads"
     exit 1
 fi
 
 MONGO_SERVER=$1
+OPERATION=$2
+MAXTHREADS=$3
 
 bash "$(dirname $0)/cleanandrestart.sh"
 
@@ -25,9 +27,8 @@ for (( i=1; i<=$MAXTHREADS; i++ )); do
     ssh $MONGO_SERVER ~/mongo/perfbench/cleanandrestart.sh
     echo "Load testing with $i threads"
     configstr="globalExtraOption = {numThreads: $i, testServerInfo: $SERVER_INFO}"
-    for operation in insert update findone; do
-        mongo --eval "$configstr" perfbench/$operation.js
-    done
+
+    mongo --eval "$configstr" perfbench/$OPERATION.js
 done
 
 mongoexport -d experiment -c results -o ~/results.json
