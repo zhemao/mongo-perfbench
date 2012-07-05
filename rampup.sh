@@ -4,19 +4,18 @@
 # The number of threads used on each run iterate from 1 to $MAXTHREADS
 # After finishing the loop, the results will be dumped to ~/results.json
 
-if [ -z $3 ]; then
-    echo "Usage: $0 user@hostname operation numthreads"
+if [ -z $4 ]; then
+    echo "Usage: $0 user@results-server user@mongod-server operation numthreads"
     exit 1
 fi
 
-MONGO_SERVER=$1
-OPERATION=$2
-MAXTHREADS=$3
-
-bash "$(dirname $0)/cleanandrestart.sh"
+RESULTS_SERVER=$1
+MONGO_SERVER=$2
+OPERATION=$3
+MAXTHREADS=$4
 
 source "$(dirname $0)/pbrc.sh"
-bash "$(dirname $0)/startup.sh" $MONGO_SERVER
+bash "$(dirname $0)/startup.sh" $RESULTS_SERVER $MONGO_SERVER
 
 # cd into the mongo repository
 cd "$MONGO_DIR"
@@ -31,4 +30,3 @@ for (( i=1; i<=$MAXTHREADS; i++ )); do
     mongo --eval "$configstr" perfbench/$OPERATION.js
 done
 
-mongoexport -d experiment -c results -o ~/results.json

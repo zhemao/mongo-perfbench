@@ -4,16 +4,17 @@
 # The pid is written to ~/holdit.pid so that the script can be killed later
 
 if [ -z $3 ]; then
-    echo "Usage: $0 user@hostname operation numthreads"
+    echo "Usage: $0 user@results-server user@mongod-server operation numthreads"
     exit 1
 fi
 
-MONGO_SERVER=$1
-OPERATION=$2
-NUMTHREADS=$3
+RESULTS_SERVER=$1
+MONGO_SERVER=$2
+OPERATION=$3
+NUMTHREADS=$4
 
 source "$(dirname $0)/pbrc.sh"
-bash "$(dirname $0)/startup.sh" $MONGO_SERVER
+bash "$(dirname $0)/startup.sh" $RESULTS_SERVER $MONGO_SERVER
 
 # cd into the mongo repository
 cd "$MONGO_DIR"
