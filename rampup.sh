@@ -20,10 +20,10 @@ bash "$(dirname $0)/startup.sh" $RESULTS_SERVER $MONGO_SERVER
 # cd into the mongo repository
 cd "$MONGO_DIR"
 
-SERVER_INFO=$(ssh $MONGO_SERVER ~/mongo/perfbench/getserverinfo.sh)
+SERVER_INFO=$(ssh $MONGO_SERVER '~/mongo/perfbench/getserverinfo.sh')
 
 for (( i=1; i<=$MAXTHREADS; i++ )); do
-    ssh $MONGO_SERVER ~/mongo/perfbench/cleanandrestart.sh
+    ssh $MONGO_SERVER '~/mongo/perfbench/cleanandrestart.sh'
     echo "Load testing with $i threads"
     configstr="globalExtraOption = {numThreads: $i, testServerInfo: $SERVER_INFO}"
 
