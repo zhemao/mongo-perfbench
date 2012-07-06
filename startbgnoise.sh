@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# This script starts the benchmarking
-# It takes as an argument a file listing the hosts you want to connect to
-# The host on the first line is the database server
-# The hosts on the remaining lines are the load testing servers
+# Run holdit.sh on the hosts specified in the hosts file
+# Hosts file syntax is the same as for runbench.sh
 
 if [ -z "$1" ]; then
     echo "Must specify configuration file"
