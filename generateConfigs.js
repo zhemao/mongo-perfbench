@@ -16,11 +16,11 @@ hardwareopts.forEach(function (hw) {
 
                     var config = {
                         suiteName: name,
-                        datasetFitsInRam: (fitsinram) ? "yes" : "no",
+                        dataSetFitsInRam: (fitsinram) ? "yes" : "no",
                         backgroundReadRunning: (bgRead) ? "yes": "no",
                         backgroundSlowOpsRunning: (bgSlow) ? "yes": "no",
                         mongo: md,
-                        hardware: hw
+                        hardwareType: hw
                     };
                     db.configs.insert(config);
                 });

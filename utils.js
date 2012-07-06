@@ -73,10 +73,20 @@ mongo.benchmark.utils.addMoreOptions = function(type) {
     else
         type.dataSetFitsInRam = globalExtraOption.dataSetFitsInRam;
     
-    if (globalExtraOption.otherOpsRunning == undefined)
-        type.otherOpsRunning = mbtd.otherOpsRunning;
+    if (globalExtraOption.backgroundReadRunning == undefined)
+        type.backgroundReadRunning = mbtd.backgroundReadRunning;
     else
-        type.otherOpsRunning = globalExtraOption.otherOpsRunning;
+        type.backgroundReadRunning = globalExtraOption.backgroundReadRunning;
+    
+    if (globalExtraOption.backgroundSlowOpsRunning == undefined)
+        type.backgroundSlowOpsRunning = mbtd.backgroundSlowOpsRunning;
+    else
+        type.backgroundSlowOpsRunning = globalExtraOption.backgroundSlowOpsRunning;
+
+    if (globalExtraOption.hardwareType == undefined)
+        type.hardwareType = mbtd.hardwareType;
+    else
+        type.hardwareType = globalExtraOption.hardwareType;
     
     if (globalExtraOption.dbprefix == undefined)
         type.dbprefix = mbtd.dbprefix;
