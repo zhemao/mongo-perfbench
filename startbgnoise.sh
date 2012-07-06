@@ -19,5 +19,6 @@ tail -n +3 $HOSTS_FILE | while read host operation threads; do
     echo "$host -> $MONGOD_SERVER"
     ssh -n $host "nohup ~/mongo/perfbench/holdit.sh $RESULTS_SERVER $MONGOD_SERVER \
                     $operation $threads < /dev/null &> ~/holdit.log &" 
+    scp $host:holdit.pid $host-holdit.pid
 done
 
