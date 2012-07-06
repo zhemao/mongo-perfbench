@@ -36,7 +36,8 @@ mongo.benchmark.result.defaults = {
 // these can be overriden from the command line input
 mongo.benchmark.test.defaults = {
     //some default values
-    testServerInfo :  { hostname: "127.0.0.1", kernelName: 12, kernelRelease: "",
+    databaseURL : "127.0.0.1:27017",
+    testServerInfo :  { hostname: "", kernelName: 12, kernelRelease: "",
                         kernelVersion: "", Platform: "", OS: "", fileSystem: ""
     },
     mongo : "single",

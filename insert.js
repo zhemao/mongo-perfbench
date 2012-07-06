@@ -37,7 +37,7 @@ mongo.benchmark.insert.options = mongo.benchmark.utils.
 
 // Add buildinfo 
 mongo.benchmark.insert.options.buildInfo = mongo.benchmark.utils.buildInfo(
-                                              mongo.benchmark.insert.options.testServerInfo.hostname);
+                                              mongo.benchmark.insert.options.databaseURL);
 
 mongo.benchmark.insert.doc =  {  
      "blob" : "MongoDB is an open source document-oriented " +
@@ -68,7 +68,7 @@ mongo.benchmark.insert.doc =  {
 mongo.benchmark.insert.generateOps = function() {
     
     var io = mongo.benchmark.insert.options;
-    var numDocsInDB = mongo.benchmark.utils.findNumOfDocsInDB(io.testServerInfo.hostname,
+    var numDocsInDB = mongo.benchmark.utils.findNumOfDocsInDB(io.databaseURL,
                                                               io.dbprefix);
     var insertOps = [];
     // Generate ops evenly spread across dbs
@@ -94,7 +94,7 @@ mongo.benchmark.insert.run = function() {
         result = benchRun( { ops : mongo.benchmark.insert.generateOps.insertOps,
                              seconds : io.numSeconds,
                              parallel : io.numThreads,
-                             host : io.testServerInfo.hostname } );
+                             host : io.databaseURL } );
         
         if (mbrd.saveResult == "yes") {
             var query = { _id : experimentResult.Id };

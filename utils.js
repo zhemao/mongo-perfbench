@@ -58,6 +58,11 @@ mongo.benchmark.utils.addMoreOptions = function(type) {
     if (typeof globalExtraOption === "undefined" || globalExtraOption === null)
         return type;
     
+    if (globalExtraOption.databaseURL == undefined)
+        type.databaseURL = mbtd.databaseURL;
+    else
+        type.databaseURL = globalExtraOption.databaseURL;
+
     if (globalExtraOption.mongo == undefined)
         type.mongo = mbtd.mongo;
     else
@@ -111,6 +116,7 @@ mongo.benchmark.utils.addMoreOptions = function(type) {
     }
     else
         type.testServerInfo = globalExtraOption.testServerInfo;
+
     
     if (globalExtraOption.testServerInfo.hostname == undefined)
         type.testServerInfo.hostname = mbtd.testServerInfo.hostname;

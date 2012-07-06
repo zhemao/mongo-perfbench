@@ -38,12 +38,12 @@ mongo.benchmark.findOne.options = mongo.benchmark.utils.
 
 // Add buildinfo 
 mongo.benchmark.findOne.options.buildInfo = mongo.benchmark.utils.buildInfo(
-                                              mongo.benchmark.findOne.options.testServerInfo.hostname);
+                                              mongo.benchmark.findOne.options.databaseURL);
 
 mongo.benchmark.findOne.generateOps = function() {
     
     var fo = mongo.benchmark.findOne.options;
-    var numDocsInDB = mongo.benchmark.utils.findNumOfDocsInDB(fo.testServerInfo.hostname,
+    var numDocsInDB = mongo.benchmark.utils.findNumOfDocsInDB(fo.databaseURL,
                                                               fo.dbprefix);
     
     var queryOnId = { _id : { "#RAND_INT" : [0, numDocsInDB] } };
@@ -74,7 +74,7 @@ mongo.benchmark.findOne.run = function() {
         result = benchRun( { ops : mongo.benchmark.findOne.generateOps.findOneOps,
                              seconds : fo.numSeconds,
                              parallel : fo.numThreads,
-                             host : fo.testServerInfo.hostname } );
+                             host : fo.databaseURL } );
         
         if (mbrd.saveResult == "yes") {
             var query = { _id : experimentResult.Id };

@@ -37,13 +37,13 @@ mongo.benchmark.inplaceupdate.options = mongo.benchmark.utils.
 
 // Add buildinfo 
 mongo.benchmark.inplaceupdate.options.buildInfo = mongo.benchmark.utils.buildInfo(
-                                      mongo.benchmark.inplaceupdate.options.testServerInfo.hostname);
+                                      mongo.benchmark.inplaceupdate.options.databaseURL);
 
 mongo.benchmark.inplaceupdate.generateOps = function() {
     
     var uo = mongo.benchmark.inplaceupdate.options;
     
-    var numDocsInDB = mongo.benchmark.utils.findNumOfDocsInDB(uo.testServerInfo.hostname,
+    var numDocsInDB = mongo.benchmark.utils.findNumOfDocsInDB(uo.databaseURL,
             uo.dbprefix);
 
     var query = { _id : { "#RAND_INT" : [0, numDocsInDB] } };
@@ -76,7 +76,7 @@ mongo.benchmark.inplaceupdate.run = function() {
         result = benchRun( { ops : mongo.benchmark.inplaceupdate.generateOps.inplaceUpdateOps,
                              seconds : uo.numSeconds,
                              parallel : uo.numThreads,
-                             host : uo.testServerInfo.hostname } );
+                             host : uo.databaseURL } );
         
         if (mbrd.saveResult == "yes") {
             var query = { _id : experimentResult.Id };
