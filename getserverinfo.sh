@@ -4,6 +4,7 @@ KNAME=$(uname -s)
 KVER=$(uname -v)
 KREL=$(uname -r)
 ARCH=$(uname -p)
+HNAME=$(hostname -f)
 
 if [ $KNAME == 'Linux' ]; then
     OS=$(uname -o)
@@ -15,7 +16,7 @@ elif [ $KNAME == 'Darwin' ]; then
     FS='HFS+' 
 fi
 
-echo "{hostname: \"localhost:27018\", kernelName: \"$KNAME\", \
+echo "{hostname: \"$HNAME\", kernelName: \"$KNAME\", \
         kernelVersion: \"$KVER\", kernelRelease: \"$KREL\", \
         Platform: \"$ARCH\", fileSystem: \"$FS\", OS: \"$OS\"}"
         

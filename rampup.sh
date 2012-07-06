@@ -25,7 +25,7 @@ SERVER_INFO=$(ssh $MONGO_SERVER '~/mongo/perfbench/getserverinfo.sh')
 for (( i=1; i<=$MAXTHREADS; i++ )); do
     ssh $MONGO_SERVER '~/mongo/perfbench/cleanandrestart.sh'
     echo "Load testing with $i threads"
-    configstr="globalExtraOption = {numThreads: $i, testServerInfo: $SERVER_INFO}"
+    configstr="globalExtraOption = {numThreads: $i, databaseURL: \"127.0.0.1:27018\", testServerInfo: $SERVER_INFO}"
 
     mongo --eval "$configstr" perfbench/$OPERATION.js
 done
