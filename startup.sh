@@ -10,12 +10,11 @@ fi
 RESULTS_SERVER=$1
 MONGO_SERVER=$2
 
-# start mongod if necessary
+# start ssh tunnels if necessary
 if ! /usr/sbin/lsof -i :27017 > /dev/null; then
     ssh -fN -L 27017:localhost:27017 $RESULTS_SERVER
 fi
 
-# start ssh tunnel if necessary
 if ! /usr/sbin/lsof -i :27018 > /dev/null; then
     ssh -fN -L 27018:localhost:27017 $MONGO_SERVER
 fi
