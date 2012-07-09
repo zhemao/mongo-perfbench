@@ -11,7 +11,7 @@ def main():
         p = subprocess.Popen(['df', '-T', datadir], stdout=subprocess.PIPE)
         (output, _) = p.communicate()
         fs = [s for s in output.split('\n')[1].split(' ') if len(s) > 0][1]
-        opsys = ' '.join(platform.dist())
+        opsys = ' '.join(platform.linux_distribution())
     elif kname == 'Darwin':
         fs = 'HFS+'
         opsys = 'Mac OSX ' + platform.mac_ver()[0]
