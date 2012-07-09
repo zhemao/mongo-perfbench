@@ -25,6 +25,7 @@ SERVER_INFO=$(ssh $MONGO_SERVER '~/mongo/perfbench/getserverinfo.sh')
 
 for (( i=$INCREMENT; i<=$MAXTHREADS; i+=$INCREMENT )); do
     ssh $MONGO_SERVER '~/mongo/perfbench/cleanandrestart.sh'
+    sleep 1
     echo "Load testing with $i threads"
     configstr="globalExtraOption = {numThreads: $i, databaseURL: \"$MONGO_SERVER\", \
                 testServerInfo: $SERVER_INFO}; suiteName = \"$SUITE\";"
