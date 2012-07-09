@@ -19,7 +19,7 @@ def main():
     operation = config['operation']
     threads = config['threads']
 
-    p = sshpopen('python ~/mongo/perfbench/getserverinfo.py', stdout=subprocess.PIPE)
+    p = sshpopen(dburl, 'python ~/mongo/perfbench/getserverinfo.py', stdout=subprocess.PIPE)
     (output, _) = p.communicate()
     config['server-info'] = json.loads(output)
 
@@ -35,3 +35,6 @@ def main():
 
     for host in config['load-servers']:
         sshcall(host, 'python ~/mongo/perfbench/stophold.py')
+
+if __name__ == '__main__':
+    sys.exit(main())

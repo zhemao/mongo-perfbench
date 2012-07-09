@@ -25,8 +25,7 @@ def main():
             "testServerInfo": config['server-info']
         }
 
-        configstr = 'globalExtraOption = %s; suiteName = "%s";' % 
-                        (json.dumps(options), suite)
+        configstr = 'globalExtraOption = %s; suiteName = "%s";' % (json.dumps(options), suite)
 
         scriptname = 'perfbench/%s.js' % operation
 
