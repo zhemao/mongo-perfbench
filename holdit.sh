@@ -18,7 +18,8 @@ source "$(dirname $0)/pbrc.sh"
 # cd into the mongo repository
 cd "$MONGO_DIR"
 
-configstr="globalExtraOption = {numThreads: $NUMTHREADS, numSeconds: 7200, databaseURL: \"$MONGO_SERVER\"}"
+configstr="globalExtraOption = {numThreads: $NUMTHREADS, numSeconds: 10800, \
+    saveResult: \"no\", databaseURL: \"$MONGO_SERVER\"}"
 
 echo -e $$ > ~/holdit.pid
 
