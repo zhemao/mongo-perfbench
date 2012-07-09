@@ -10,7 +10,7 @@ def main():
     if kname == 'Linux':
         p = subprocess.Popen(['df', '-T', datadir], stdout=subprocess.PIPE)
         (output, _) = p.communicate()
-        fs = output.split('\n')[1].split(' ')[1]
+        fs = [s for s in output.split('\n')[1].split(' ') if len(s) > 0][1]
         opsys = ' '.join(platform.dist())
     elif kname == 'Darwin':
         fs = 'HFS+'
