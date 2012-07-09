@@ -18,7 +18,7 @@ def main():
     numthreads = int(sys.argv[4])
 
     options = {
-        'numThreads': numthreads
+        'numThreads': numthreads,
         'numSeconds': 10800,
         'saveResult': 'no',
         'databaseURL': dburl
@@ -31,8 +31,8 @@ def main():
     print "Holding at %d threads" % numthreads
 
     while True:
-        subprocess.call('mongo', '--eval', configstr, 
-            resurl, 'perfbench/%s.js' % operation)
+        subprocess.call(['mongo', '--eval', configstr, 
+            resurl, 'perfbench/%s.js' % operation])
 
 if __name__ == '__main__':
     sys.exit(main())

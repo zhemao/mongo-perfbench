@@ -20,7 +20,7 @@ def sshcall(host, command, **kwargs):
 def writepid():
     pid = os.getpid()
     bname = os.path.basename(sys.argv[0])
-    name, ext = os.path.splitext()
+    name, ext = os.path.splitext(bname)
 
     pidfilepath = os.path.join(os.getenv('HOME'), name + '.pid')
 

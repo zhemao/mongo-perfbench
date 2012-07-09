@@ -10,4 +10,7 @@ def main():
         pid = int(f.read().strip())
         os.kill(pid, signal.SIGTERM)
         f.close()
-        subprocess.call('killall mongo')
+        subprocess.call(['killall', 'mongo'])
+
+if __name__ == '__main__':
+    main()

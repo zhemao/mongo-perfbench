@@ -33,14 +33,5 @@ def main():
                         < /dev/null &> ~/holdit.log &" % (resurl, dburl, operation, threads)
         sshcall(host, command)
 
-        subprocess.call(["scp", "%s:holdit.pid" % host, "%s-holdit.pid" % host])
-
     for host in config['load-servers']:
-        pidfilepath = '%s-holdit.pid' % host
-        if os.path.isfile(pidfilepath):
-            print "Killing holdit.py on %s" % host
-            f = open(pidfilepath)
-            pid = int(f.read().strip())
-            f.close()
-            sshcall(host, ['kill', pid, '&&', 'killall', 'mongo'])
-            os.remove(pidfilepath)
+        sshcall(host, 'python ~/mongo/perfbench/stophold.py')
