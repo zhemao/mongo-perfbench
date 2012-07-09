@@ -11,7 +11,10 @@ fi
 #rm -rf ~/datadb
 #cp -r ~/basedb ~/datadb
 
-sleep 1
+# wait until lock is released
+while [ -f ~/datadb/mongod.lock ] && kill -0 $(cat ~/datadb/mongod.lock); do
+    sleep 1
+done
 
 rsync -avz --delete /mnt/basedb/* ~/datadb
 
