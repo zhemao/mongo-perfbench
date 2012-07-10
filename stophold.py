@@ -8,9 +8,13 @@ def main():
     if os.path.exists(pidfilepath):
         f = open(pidfilepath)
         pid = int(f.read().strip())
-        os.kill(pid, signal.SIGTERM)
+        try:
+            os.kill(pid, signal.SIGTERM)
+        except OSError:
+            print "No such process"
         f.close()
         subprocess.call(['killall', 'mongo'])
+        os.remove(pidfilepath)
 
 if __name__ == '__main__':
     main()
