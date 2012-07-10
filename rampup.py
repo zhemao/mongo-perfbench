@@ -5,7 +5,10 @@ import subprocess
 from helpers import *
 
 def main():
-    config = json.load(sys.stdin)
+    if len(sys.argv) < 2:
+        return "Usage: " + sys.argv[0] + " config"
+
+    config = json.loads(sys.argv[1])
 
     chdir('~/mongo')
 

@@ -24,10 +24,9 @@ def main():
     config['server-info'] = json.loads(output)
 
     for host in config['load-servers']:
-        s = json.dumps(config)
+        configstr = json.dumps(config)
 
-        p = sshpopen(host, "python ~/mongo/perfbench/rampup.py", stdin=subprocess.PIPE)
-        p.communicate(s)
+        p = sshcall(host, ['python', '~/mongo/perfbench/rampup.py', configstr])
         
         command = "nohup python ~/mongo/perfbench/holdit.py %s %s %s %d \
                         < /dev/null &> ~/holdit.log &" % (resurl, dburl, operation, threads)
