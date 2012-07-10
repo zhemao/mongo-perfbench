@@ -24,7 +24,7 @@ def main():
     config['server-info'] = json.loads(output)
 
     for host in config['load-servers']:
-        configstr = json.dumps(config)
+        configstr = "'" + json.dumps(config) + "'"
 
         ret = sshcall(host, ['python', '~/mongo/perfbench/rampup.py', configstr])
 
