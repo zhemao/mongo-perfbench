@@ -30,7 +30,8 @@ mongo.benchmark.result.defaults = {
     saveResult : "yes",
     resultServerInfo :  { hostname : "127.0.0.1" },
     resultDB : "experiment",
-    resultColl : "results"
+    resultColl : "results",
+    configColl: "configs"
 };
 
 // these can be overriden from the command line input

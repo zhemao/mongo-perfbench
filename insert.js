@@ -84,9 +84,12 @@ mongo.benchmark.insert.run = function() {
     
     var io = mongo.benchmark.insert.options;
     var mbrd = mongo.benchmark.result.defaults;
+    var mbu = mongo.benchmark.utils;
+    var conn = new Mongo(mbrd.resultServerInfo.hostname);
+    
+    io = mbu.addOptionsFromDB(conn, io);
 
     if (mbrd.saveResult == "yes") {
-        var conn = new Mongo(mbrd.resultServerInfo.hostname);
         var experimentResult = mongo.benchmark.utils.insert(conn, io);
     }
     

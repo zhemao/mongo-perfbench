@@ -54,6 +54,29 @@ mongo.benchmark.utils.insert = function(conn, doc) {
     return ut.experimentResult;
 }
 
+mongo.benchmark.utils.addOptionsFromDB = function(conn, doc) {
+    var mbrd = mongod.benchmark.result.defaults;
+    var ns = conn.getDB(mbrd.resultDB).getCollection(mbrd.configColl);
+
+    var config = null;
+    
+    if ( typeof suiteName !== "undefined" && suiteName !== null ){
+        config = ns.findOne({"suiteName": suiteName});
+    }
+
+    if(config === null){
+        config = mongo.benchmark.test.defaults;
+    }
+   
+    doc.mongo = config.mongo;
+    doc.dataSetFitsInRam = config.dataSetFitsInRam;
+    doc.backgroundReadRunning = config.backgroundReadRunning;
+    doc.backgroundSlowOpsRunning = config.backgroundSlowOpsRunning;
+    doc.hardwareType = config.hardwareType;
+
+    return doc;
+}
+
 // parse global or choose default value
 mongo.benchmark.utils.addMoreOptions = function(type) {
  
