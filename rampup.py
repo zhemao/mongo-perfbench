@@ -31,7 +31,8 @@ def main():
             "numThreads"    : i,
             "databaseURL"   : dburl,
             "testServerInfo": config['server-info'],
-            "externThreads" : config['extern-threads']
+            "externThreads" : config['extern-threads'],
+            "numSeconds" : config['seconds']
         }
 
         configstr = 'globalExtraOption = %s; suiteName = "%s";' % (json.dumps(options), suite)
