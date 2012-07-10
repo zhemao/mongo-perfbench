@@ -7,15 +7,26 @@ from helpers import fixpath
 
 lockfilepath = os.path.expanduser('~/datadb/mongod.lock')
 
+def kill_mongod(sig):
+    try:
+        f = open(lockfilepath)
+        pid = f.read().strip()
+        if len(pid) == 0:
+            return 1
+        os.kill(int(pid), sig)
+        f.close()
+        return 0
+    except OSError:
+        return 1
+
 def dblocked():
-    return os.path.exists(lockfilepath) and os.path.getsize(lockfilepath) > 0
+    if os.path.exists(lockfilepath) and os.path.getsize(lockfilepath) > 0:
+        return not kill_mongod(0)
+    return False
 
 def main():
     if dblocked():
-        f = open(lockfilepath)
-        pid = int(f.read().strip())
-        os.kill(pid, signal.SIGTERM)
-        f.close()
+        kill_mongod(signal.SIGINT)
 
     while dblocked():
         pass
