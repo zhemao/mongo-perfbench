@@ -46,6 +46,10 @@ mongo.benchmark.utils.insert = function(conn, doc) {
     var ut = mongo.benchmark.utils;
     var mbrd = mongo.benchmark.result.defaults;
     var ns = conn.getDB(mbrd.resultDB).getCollection(mbrd.resultColl);
+
+    print(doc.numThreads);
+    print(doc.externThreads);
+
     ns.insert(doc);
     ut.experimentResult.Id = ns._lastID;
     ns.update({_id: ut.experimentResult.Id}, 

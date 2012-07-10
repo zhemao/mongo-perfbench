@@ -26,7 +26,7 @@ def main():
 
     for i in range(incr, maxthreads+1, incr):
         sshcall(dburl, 'python ~/mongo/perfbench/cleanandrestart.py')
-        print "Load testing with %d threads" % i
+        print "Load testing with %d - %d threads" % (config['extern-threads'], i)
         options = {
             "numThreads"    : i,
             "databaseURL"   : dburl,
