@@ -48,6 +48,9 @@ mongo.benchmark.utils.insert = function(conn, doc) {
     var ns = conn.getDB(mbrd.resultDB).getCollection(mbrd.resultColl);
     ns.insert(doc);
     ut.experimentResult.Id = ns._lastID;
+    ns.update({_id: ut.experimentResult.Id}, 
+              {$inc: { numThreads: doc.externThreads }, 
+               $unset: { externThreads: 1 }});
     return ut.experimentResult;
 }
 
@@ -107,6 +110,11 @@ mongo.benchmark.utils.addMoreOptions = function(type) {
         type.numThreads = mbtd.numThreads;
     else
         type.numThreads = globalExtraOption.numThreads;
+
+    if (globalExtraOption.externThreads == undefined)
+        type.externThreads = mbtd.externThreads;
+    else
+        type.numThreads = globalExtraOption.externThreads;
 
     if (globalExtraOption.numberDatabases == undefined)
         type.numberDatabases = mbtd.numberDatabases;

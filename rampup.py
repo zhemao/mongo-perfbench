@@ -28,9 +28,10 @@ def main():
         sshcall(dburl, 'python ~/mongo/perfbench/cleanandrestart.py')
         print "Load testing with %d threads" % i
         options = {
-            "numThreads": i,
-            "databaseURL": dburl,
-            "testServerInfo": config['server-info']
+            "numThreads"    : i,
+            "databaseURL"   : dburl,
+            "testServerInfo": config['server-info'],
+            "externThreads" : config['extern-threads']
         }
 
         configstr = 'globalExtraOption = %s; suiteName = "%s";' % (json.dumps(options), suite)

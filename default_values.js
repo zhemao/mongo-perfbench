@@ -50,5 +50,6 @@ mongo.benchmark.test.defaults = {
     numOps : 60000,
     numThreads : 8,
     numberDatabases : 5,
-    numSeconds : 120
+    numSeconds : 120,
+    externThreads: 0
 };

@@ -27,9 +27,12 @@ def main():
     (output, _) = p.communicate()
     config['server-info'] = json.loads(output)
 
+    config['extern-threads'] = 0
+
     for host in config['load-servers']:
         print host + "->" + dburl
 
+        config['extern-threads'] += config['threads']
         configstr = "'" + json.dumps(config) + "'"
 
         ret = sshcall(host, ['python', '~/mongo/perfbench/rampup.py', configstr])
