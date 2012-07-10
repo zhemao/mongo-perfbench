@@ -72,7 +72,7 @@ mongo.benchmark.update.run = function() {
 
     uo = mbu.addOptionsFromDB(conn, uo);
     
-    if (mbrd.saveResult == "yes") {
+    if (uo.saveResult == "yes") {
         var experimentResult = mongo.benchmark.utils.insert(conn, uo);
     }
     

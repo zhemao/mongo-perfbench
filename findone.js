@@ -69,7 +69,7 @@ mongo.benchmark.findOne.run = function() {
 
     fo = mbu.addOptionsFromDB(conn, fo);
     
-    if (mbrd.saveResult == "yes") {
+    if (fo.saveResult == "yes") {
         var experimentResult = mongo.benchmark.utils.insert(conn, fo);
     }
   

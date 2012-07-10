@@ -89,7 +89,7 @@ mongo.benchmark.insert.run = function() {
     
     io = mbu.addOptionsFromDB(conn, io);
 
-    if (mbrd.saveResult == "yes") {
+    if (io.saveResult == "yes") {
         var experimentResult = mongo.benchmark.utils.insert(conn, io);
     }
     

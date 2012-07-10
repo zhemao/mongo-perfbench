@@ -85,6 +85,8 @@ mongo.benchmark.utils.addOptionsFromDB = function(conn, doc) {
 mongo.benchmark.utils.addMoreOptions = function(type) {
  
     var mbtd = mongo.benchmark.test.defaults;
+    var mbrd = mongo.benchmark.result.defaults;
+
     if (typeof globalExtraOption === "undefined" || globalExtraOption === null)
         return type;
     
@@ -198,7 +200,12 @@ mongo.benchmark.utils.addMoreOptions = function(type) {
     else
         type.testServerInfo.fileSystem = globalExtraOption.testServerInfo.fileSystem;
     
-    // --------------- end testServerInfo ------------------------
+    // --------------- start resultServerInfo ------------------------
+    
+    if (globalExtraOption.saveResult == undefined)
+        type.saveResult = mbrd.saveResult;
+    else
+        type.saveResult = globalExtraOption.saveResult;
     
     
     return type;
