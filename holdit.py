@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+# Runs the benchmarks continuously using a fixed number of threads
+# Usage: python holdit.py results-server mongod-server operation numtreads
+
 import sys
 import os
 import subprocess

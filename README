@@ -18,33 +18,30 @@ Step 2: Script installation
 Clone the mongodb repo (with the perfbench changes) to ~/mongo on each of the
 servers. The following command should do it.
 
-    git clone https://github.com/zhemao/mongo.git -b perfbench ~/mongo
+    git clone https://github.com/zhemao/mongo.git -b perfbench2 ~/mongo
 
 Step 3: Local configuration
 
-Create a text file on your computer that lists the hosts involved in the test.
-The hostname of the database server should be first, followed by all of the
-load test servers.
+Create a configuration file on your local computer, see example.json in this 
+directory to see what format the configuration file should follow.
 
 Step 4: Launch!
 
-Run the runbench.sh script and pass it the path to the hosts file. 
+Run the runbench.py script
 
+    python runbench.py config.json
 
 Detailed info
 
 The workhorses of the performance benchmarking are the rampup.sh and holdit.sh
 scripts.
 
-rampup.sh runs the benchmarking scripts against the server repeatedly with the 
-number of threads incrementing from 1 to $MAXTHREADS.
+rampup.py runs the benchmarking scripts against the server repeatedly with the 
+number of threads increasing each time.
 
-holdit.sh runs the findone.js benchmark in an infinite while loop with
-$MAXTHREADS threads
+holdit.py runs the findone.js benchmark in an infinite while loop with
+the maximum numbers of threads
 
 There are also a few helper scripts
 
-startup.sh ensures that the ssh tunnel to the mongod server and the local
-mongod are running
-
-cleanandrestart.sh stops mongod, deletes its data files, and then restarts
+cleanandrestart.py stops mongod, resets the data files to the original state, and then restarts

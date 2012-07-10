@@ -4,6 +4,11 @@ import json
 import subprocess
 from helpers import *
 
+# Run the benchmarks continuously, ramping up the number of threads each time
+# Usage: python rampup.py config
+# config is a json string
+# see example.json for the configuration syntax
+
 def main():
     if len(sys.argv) < 2:
         return "Usage: " + sys.argv[0] + " config"

@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+# This is the script that starts it all
+# Usage: python runbench.py config.json
+# See example.json for the configuration syntax
+
 import sys
 import os
 import subprocess

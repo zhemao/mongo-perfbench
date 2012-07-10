@@ -5,6 +5,10 @@ import glob
 import sys
 from helpers import fixpath
 
+# Stop mongod if running
+# Restore the database to a previous state using rsync
+# Restart mongod
+
 lockfilepath = os.path.expanduser('~/datadb/mongod.lock')
 
 def kill_mongod(sig):
