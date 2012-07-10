@@ -25,14 +25,14 @@ def main():
     }
 
     configstr = 'globalExtraOption = %s' % json.dumps(options)
+    scriptname = 'perfbench/%s.js' % operation
 
     writepid()
 
     print "Holding at %d threads" % numthreads
 
     while True:
-        subprocess.call(['mongo', '--eval', configstr, 
-            resurl, 'perfbench/%s.js' % operation])
+        subprocess.call(['mongo', '--eval', configstr, resurl, scriptname])
 
 if __name__ == '__main__':
     sys.exit(main())

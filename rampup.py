@@ -32,7 +32,7 @@ def main():
 
         scriptname = 'perfbench/%s.js' % operation
 
-        ret = subprocess.call(['mongo', '--eval', configstr, resurl, 'perfbench/%s.js'])
+        ret = subprocess.call(['mongo', '--eval', configstr, resurl, scriptname])
 
         if ret > 0:
             return ret
