@@ -40,4 +40,5 @@ def main():
         sshcall(host, 'python ~/mongo/perfbench/stophold.py')
 
 if __name__ == '__main__':
+    fixpath()
     sys.exit(main())

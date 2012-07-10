@@ -38,4 +38,5 @@ def main():
             return ret
 
 if __name__ == '__main__':
+    fixpath()
     sys.exit(main())

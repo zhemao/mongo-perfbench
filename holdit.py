@@ -35,4 +35,5 @@ def main():
         subprocess.call(['mongo', '--eval', configstr, resurl, scriptname])
 
 if __name__ == '__main__':
+    fixpath()
     sys.exit(main())

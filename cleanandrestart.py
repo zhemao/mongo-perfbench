@@ -3,6 +3,7 @@ import signal
 import subprocess
 import glob
 import sys
+from helpers import fixpath
 
 lockfilepath = os.path.expanduser('~/datadb/mongod.lock')
 
@@ -28,4 +29,5 @@ def main():
     return subprocess.call(command)
 
 if __name__ == '__main__':
+    fixpath()
     sys.exit(main())
