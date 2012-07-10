@@ -35,7 +35,7 @@ def main():
         ret = subprocess.call(['mongo', '--eval', configstr, resurl, 'perfbench/%s.js'])
 
         if ret > 0:
-            return "mongo exited abnormally, bailing out!!!!"
+            return ret
 
 if __name__ == '__main__':
     sys.exit(main())

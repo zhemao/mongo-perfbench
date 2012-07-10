@@ -26,7 +26,11 @@ def main():
     for host in config['load-servers']:
         configstr = json.dumps(config)
 
-        p = sshcall(host, ['python', '~/mongo/perfbench/rampup.py', configstr])
+        ret = sshcall(host, ['python', '~/mongo/perfbench/rampup.py', configstr])
+
+        if ret != 0:
+            print "rampup returned abnormally - aborting..."
+            break
         
         command = "nohup python ~/mongo/perfbench/holdit.py %s %s %s %d \
                         < /dev/null &> ~/holdit.log &" % (resurl, dburl, operation, threads)
