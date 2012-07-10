@@ -55,7 +55,7 @@ mongo.benchmark.utils.insert = function(conn, doc) {
 }
 
 mongo.benchmark.utils.addOptionsFromDB = function(conn, doc) {
-    var mbrd = mongod.benchmark.result.defaults;
+    var mbrd = mongo.benchmark.result.defaults;
     var ns = conn.getDB(mbrd.resultDB).getCollection(mbrd.configColl);
 
     var config = null;
