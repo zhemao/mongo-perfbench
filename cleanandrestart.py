@@ -25,8 +25,8 @@ def main():
 
     subprocess.call(['rsync', '-avz', '--delete'] + dbfiles + [dbloc])
 
-    command = os.path.expanduser('mongod -f ~/.mongod.conf --fork')
-    return subprocess.call(command)
+    conffile = os.path.expanduser('~/.mongod.conf')
+    return subprocess.call(['mongod', '-f', conffile, '--fork'])
 
 if __name__ == '__main__':
     fixpath()
