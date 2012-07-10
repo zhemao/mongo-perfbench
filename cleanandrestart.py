@@ -2,6 +2,7 @@ import os
 import signal
 import subprocess
 import glob
+import sys
 
 lockfilepath = os.path.expanduser('~/datadb/mongod.lock')
 
