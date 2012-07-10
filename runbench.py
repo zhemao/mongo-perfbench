@@ -32,7 +32,6 @@ def main():
     for host in config['load-servers']:
         print host + "->" + dburl
 
-        config['extern-threads'] += config['threads']
         configstr = "'" + json.dumps(config) + "'"
 
         ret = sshcall(host, ['python', '~/mongo/perfbench/rampup.py', configstr])
@@ -44,6 +43,8 @@ def main():
         command = "nohup python ~/mongo/perfbench/holdit.py %s %s %s %d \
                         < /dev/null &> ~/holdit.log &" % (resurl, dburl, operation, threads)
         sshcall(host, command)
+        
+        config['extern-threads'] += config['threads']
 
     for host in config['load-servers']:
         sshcall(host, 'python ~/mongo/perfbench/stophold.py')
