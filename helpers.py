@@ -31,4 +31,4 @@ def writepid():
 def fixpath():
     homebin = os.path.join(os.getenv('HOME'), 'bin')
     if homebin not in os.getenv('PATH').split(os.pathsep):
-        os.environ['PATH'] = os.pathsep.join(homebin, os.getenv('PATH'), '/sbin', '/usr/sbin')
+        os.environ['PATH'] = homebin + os.pathsep + os.getenv('PATH')
