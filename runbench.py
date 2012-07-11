@@ -14,6 +14,9 @@ from helpers import *
 import json
 
 def start_hold(host, baseconfig):
+    """Start a hold operation on host.
+       The baseconfig argument is the config read from the json file."""
+    
     operation = baseconfig['operation']
     suite = baseconfig.get('suite', 'nosuite')
 
@@ -33,6 +36,10 @@ def start_hold(host, baseconfig):
     return sshcall(host, command)
 
 def run_experiment(host, threads, extern, baseconfig):
+    """Start an experiment on host using the given number of threads 
+       and external threads. Baseconfig is the config read from the
+       json file."""
+
     operation = baseconfig['operation']
     suite = baseconfig.get('suite', 'nosuite')
     
@@ -53,6 +60,11 @@ def run_experiment(host, threads, extern, baseconfig):
     return sshcall(host, command)
 
 def rampup(host, prevhosts, config):
+    """Run a series of experiments on host, starting with increment and going
+       up by increment until maxthreads is reached. Hold operations will
+       be run on the hosts in prevhosts. Config is the configuration
+       read from the json file."""
+
     maxthreads = config['maxthreads']
     incr = config['increment']
     dbhost = config['database-server']
@@ -61,6 +73,7 @@ def rampup(host, prevhosts, config):
         print "Restarting database"
         sshcall(dbhost, 'python ~/mongo/perfbench/cleanandrestart.py')
 
+        # Restart all the hold operations
         for phost in prevhosts:
             print "Restarting hold on %s" % phost
             sshcall(phost, 'python ~/mongo/perfbench/stopexperiment.py')
