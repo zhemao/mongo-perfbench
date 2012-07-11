@@ -22,12 +22,63 @@ servers. The following command should do it.
 
 Step 3: Local configuration
 
-Create a configuration file on your local computer, see example.json in this 
-directory to see what format the configuration file should follow.
+Create a configuration file on your local computer (or whatever computer you
+will start the benchmark from).
+
+Here is an example with an explanation of each of the fields
+
+    {
+        "results-server": "results.example.com",
+        "database-server": "database.example.com",
+        "operation" : "findone",
+        "suite" : "default",
+        "maxthreads" : 8,
+        "increment": 2,
+        "seconds" : 10,
+        "trials" : 5,
+        "load-servers": [
+            "load1.example.com",
+            "load2.example.com",
+            "load3.example.com",
+            "load4.example.com"
+        ]
+    }
+
+results-server 
+    The hostname of the database on which the results of the benchmark
+    will be stored.
+
+database-server
+    The hostname of the database that the program is to benchmark.
+
+operation
+    The operation that will be run in the benchmark. Valid operations are
+    findone, insert, update, inplace_update.
+
+suite
+    The name of the current benchmark suite. This variable is used to obtain
+    extra information from the database. It is not strictly necessary.
+
+maxthreads
+    The maximum number of threads to be used on each server.
+
+increment
+    The amount by which the number of threads will be incremented for each
+    experiment.
+
+seconds
+    The amount of time each trial will be run for
+
+trials
+    The number of trials to be run in each experiment
+
+load-servers
+    A list of hostnames for the servers that will be producing the loads
 
 Step 4: Launch!
 
 Run the runbench.py script
 
     python runbench.py config.json
+
 
