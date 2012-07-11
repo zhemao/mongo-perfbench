@@ -12,6 +12,9 @@ from helpers import *
 import json
 
 def start_hold(host, baseconfig):
+    operation = baseconfig['operation']
+    suite = baseconfig['suite']
+
     config = {
         'numTrials': 1,
         'numSeconds': 10800,
@@ -21,12 +24,16 @@ def start_hold(host, baseconfig):
 
     configstr = "'" + json.dumps(config) + "'"
 
-    command = ['nohup', 'python', '~/mongo/perfbench/runexperiment.py', configstr,
+    command = ['nohup', 'python', '~/mongo/perfbench/runexperiment.py', 
+               operation, suite, configstr,
                '<', '/dev/null', '&>', '~/holdit.log', '&']
     
     return sshcall(host, command)
 
 def run_experiment(host, threads, extern, baseconfig):
+    operation = baseconfig['operation']
+    suite = baseconfig['suite']
+    
     config = {
         'numThreads': threads,
         'externThreads': extern,
@@ -38,7 +45,8 @@ def run_experiment(host, threads, extern, baseconfig):
 
     configstr = "'" + json.dumps(config) + "'"
 
-    command = ['python', '~/mongo/perfbench/runexperiment.py', configstr]
+    command = ['python', '~/mongo/perfbench/runexperiment.py', 
+               operation, suite, configstr]
 
     return sshcall(host, command)
 
@@ -72,6 +80,7 @@ def main():
     config = json.load(f)
     f.close()
 
+    dburl = config['database-server']
     load_servers = config['load-servers']
 
     p = sshpopen(dburl, 'python ~/mongo/perfbench/getserverinfo.py', stdout=subprocess.PIPE)

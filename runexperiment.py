@@ -10,15 +10,14 @@ from helpers import *
 # see example.json for the configuration syntax
 
 def main():
-    if len(sys.argv) < 2:
-        return "Usage: " + sys.argv[0] + " config"
+    if len(sys.argv) < 4:
+        return "Usage: " + sys.argv[0] + " operation suite config"
 
-    config = json.loads(sys.argv[1])
+    operation = sys.argv[1]
+    suite = sys.argv[2]
+    config = json.loads(sys.argv[3])
 
     chdir('~/mongo')
-
-    operation = config['operation']
-    suite = config['suite']
 
     configstr = 'globalExtraOption = %s; suiteName = "%s";' % (json.dumps(config), suite)
     scriptname = 'perfbench/%s.js' % operation
