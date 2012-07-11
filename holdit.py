@@ -35,6 +35,7 @@ def main():
     print "Holding at %d threads" % numthreads
 
     while True:
+        print "Starting load"
         subprocess.call(['mongo', '--eval', configstr, resurl, scriptname])
 
 if __name__ == '__main__':
