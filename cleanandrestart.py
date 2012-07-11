@@ -4,9 +4,8 @@ import subprocess
 import sys
 from helpers import fixpath
 
-# Stop mongod if running
-# Restore the database to a previous state using rsync
-# Restart mongod
+# This script will stop mongod, restore the database to a previous state
+# and then restart mongod.
 
 lockfilepath = os.path.expanduser('~/datadb/mongod.lock')
 

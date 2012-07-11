@@ -21,7 +21,7 @@ def main():
     resurl = config['results-server']
     dburl = config['database-server']
     operation = config['operation']
-    threads = config['threads']
+    threads = config['maxthreads']
 
     p = sshpopen(dburl, 'python ~/mongo/perfbench/getserverinfo.py', stdout=subprocess.PIPE)
     (output, _) = p.communicate()
@@ -44,7 +44,7 @@ def main():
                         < /dev/null &> ~/holdit.log &" % (resurl, dburl, operation, threads)
         sshcall(host, command)
         
-        config['extern-threads'] += config['threads']
+        config['extern-threads'] += config['maxthreads']
 
     for host in config['load-servers']:
         sshcall(host, 'python ~/mongo/perfbench/stophold.py')

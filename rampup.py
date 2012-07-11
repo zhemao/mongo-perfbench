@@ -18,7 +18,7 @@ def main():
     chdir('~/mongo')
 
     incr = config['increment']
-    maxthreads = config['threads']
+    maxthreads = config['maxthreads']
     suite = config['suite']
     operation = config['operation']
     dburl = config['database-server']

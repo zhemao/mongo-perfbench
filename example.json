@@ -3,7 +3,7 @@
     "database-server": "ec2-50-19-18-169.compute-1.amazonaws.com",
     "operation" : "findone",
     "suite" : "ec2-ebs-fitsInRAM-single",
-    "threads" : 48,
+    "maxthreads" : 48,
     "increment": 4,
     "load-servers": [
         "ec2-23-20-71-160.compute-1.amazonaws.com",
