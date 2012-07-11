@@ -30,9 +30,10 @@ def main():
         options = {
             "numThreads"    : i,
             "databaseURL"   : dburl,
+            "resultsURL"    : resurl,
             "testServerInfo": config['server-info'],
             "externThreads" : config['extern-threads'],
-            "numSeconds" : config['seconds']
+            "numSeconds"    : config['seconds']
         }
 
         configstr = 'globalExtraOption = %s; suiteName = "%s";' % (json.dumps(options), suite)
