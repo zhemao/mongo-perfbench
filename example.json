@@ -1,10 +1,11 @@
 {
     "results-server": "ec2-174-129-171-254.compute-1.amazonaws.com",
-    "database-server": "ec2-50-19-18-169.compute-1.amazonaws.com",
+    "database-server": "ec2-23-22-201-89.compute-1.amazonaws.com",
     "operation" : "findone",
     "suite" : "ec2-ebs-fitsInRAM-single",
-    "maxthreads" : 48,
-    "increment": 4,
+    "maxthreads" : 8,
+    "increment": 2,
+    "seconds" : 10,
     "load-servers": [
         "ec2-23-20-71-160.compute-1.amazonaws.com",
         "ec2-184-72-68-18.compute-1.amazonaws.com",
