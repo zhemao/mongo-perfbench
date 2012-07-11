@@ -79,7 +79,7 @@ mongo.benchmark.findOne.run = function() {
                              parallel : fo.numThreads,
                              host : fo.databaseURL } );
         
-        if (mbrd.saveResult == "yes") {
+        if (fo.saveResult == "yes") {
             var query = { _id : experimentResult.Id };
             experimentResult.addToTrials(conn, query, result);
         }

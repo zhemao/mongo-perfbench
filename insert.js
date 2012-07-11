@@ -99,7 +99,7 @@ mongo.benchmark.insert.run = function() {
                              parallel : io.numThreads,
                              host : io.databaseURL } );
         
-        if (mbrd.saveResult == "yes") {
+        if (io.saveResult == "yes") {
             var query = { _id : experimentResult.Id };
             experimentResult.addToTrials(conn, query, result);
         }

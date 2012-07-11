@@ -83,7 +83,7 @@ mongo.benchmark.update.run = function() {
                              parallel : uo.numThreads,
                              host : uo.databaseURL } );
         
-        if (mbrd.saveResult == "yes") {
+        if (uo.saveResult == "yes") {
             var query = { _id : experimentResult.Id };
             experimentResult.addToTrials(conn, query, result);
         }
