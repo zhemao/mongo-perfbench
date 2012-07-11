@@ -67,7 +67,7 @@ mongo.benchmark.inplaceupdate.run = function() {
     var uo = mongo.benchmark.inplaceupdate.options;
     var mbrd = mongo.benchmark.result.defaults;
     var mbu = mongo.benchmark.utils;
-    var conn = new Mongo(mbrd.resultServerInfo.hostname);
+    var conn = new Mongo(uo.resultURL);
 
     uo = addOptionsFromDB(conn, uo);
     

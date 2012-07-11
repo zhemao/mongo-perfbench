@@ -65,7 +65,7 @@ mongo.benchmark.findOne.run = function() {
     var fo = mongo.benchmark.findOne.options;
     var mbrd = mongo.benchmark.result.defaults;
     var mbu = mongo.benchmark.utils;
-    var conn = new Mongo(mbrd.resultServerInfo.hostname);
+    var conn = new Mongo(fo.resultURL);
 
     fo = mbu.addOptionsFromDB(conn, fo);
     

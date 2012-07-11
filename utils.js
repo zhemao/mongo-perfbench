@@ -203,8 +203,27 @@ mongo.benchmark.utils.addMoreOptions = function(type) {
         type.saveResult = mbrd.saveResult;
     else
         type.saveResult = globalExtraOption.saveResult;
+
+    if (globalExtraOption.resultURL == undefined)
+        type.resultURL = mbrd.resultURL;
+    else
+        type.resultURL = globalExtraOption.resultURL;
     
-    
+    if (globalExtraOption.resultDB == undefined)
+        type.resultDB = mbrd.resultDB;
+    else
+        type.resultDB = globalExtraOption.resultDB;
+
+    if (globalExtraOption.resultColl == undefined)
+        type.resultColl = mbrd.resultColl;
+    else
+        type.resultColl = globalExtraOption.resultColl;
+
+    if (globalExtraOption.configColl == undefined)
+        type.configColl = mbrd.configColl;
+    else
+        type.configColl = globalExtraOption.configColl;
+
     return type;
     
 }

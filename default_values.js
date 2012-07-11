@@ -28,7 +28,7 @@ mongo.namespace("mongo.benchmark.test.defaults");
 mongo.benchmark.result.defaults = {
     //some default values
     saveResult : "yes",
-    resultServerInfo :  { hostname : "ec2-174-129-171-254.compute-1.amazonaws.com" },
+    resultURL: "127.0.0.1",
     resultDB : "experiment",
     resultColl : "results",
     configColl: "configs"
