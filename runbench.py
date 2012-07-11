@@ -48,15 +48,19 @@ def rampup(host, prevhosts, config):
     dbhost = config['database-server']
 
     for i in range(incr, maxthreads+1, incr):
+        print "Shutting down database"
         sshcall(dbhost, 'python ~/mongo/perfbench/cleanandrestart.py')
 
         for phost in prevhosts:
+            print "Killing hold on %s" % phost
             sshcall(phost, 'python ~/mongo/perfbench/stopexperiment.py')
             start_hold(phost, config)
 
         time.sleep(2)
 
         extern = len(prevhosts) * maxthreads
+
+        print "Load testings with %d threads and %d external" % (i, extern)
 
         run_experiment(host, i, extern, config)
 
