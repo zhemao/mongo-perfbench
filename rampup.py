@@ -30,7 +30,7 @@ def main():
         options = {
             "numThreads"    : i,
             "databaseURL"   : dburl,
-            "resultsURL"    : resurl,
+            "resultURL"    : resurl,
             "testServerInfo": config['server-info'],
             "externThreads" : config['extern-threads'],
             "numSeconds"    : config['seconds']
