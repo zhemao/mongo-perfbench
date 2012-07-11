@@ -22,7 +22,7 @@ def main():
     suite = config['suite']
     operation = config['operation']
     dburl = config['database-server']
-    resurl = config['results-server'] + '/experiment'
+    resurl = config['results-server'] 
 
     for i in range(incr, maxthreads+1, incr):
         sshcall(dburl, 'python ~/mongo/perfbench/cleanandrestart.py')
@@ -40,7 +40,7 @@ def main():
 
         scriptname = 'perfbench/%s.js' % operation
 
-        ret = subprocess.call(['mongo', '--eval', configstr, resurl, scriptname])
+        ret = subprocess.call(['mongo', '--eval', configstr, '--nodb', scriptname])
 
         if ret > 0:
             return ret

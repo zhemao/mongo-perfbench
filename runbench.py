@@ -40,8 +40,8 @@ def main():
             print "rampup returned abnormally - aborting..."
             break
         
-        command = "nohup python ~/mongo/perfbench/holdit.py %s %s %s %d \
-                        < /dev/null &> ~/holdit.log &" % (resurl, dburl, operation, threads)
+        command = "nohup python ~/mongo/perfbench/holdit.py %s %s %d \
+                        < /dev/null &> ~/holdit.log &" % (dburl, operation, threads)
         sshcall(host, command)
         
         config['extern-threads'] += config['maxthreads']

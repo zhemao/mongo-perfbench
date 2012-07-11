@@ -11,14 +11,13 @@ import json
 
 def main():
     if len(sys.argv) < 4:
-        return "Usage: " + sys.argv[0] + "results-server mongod-server operation numthreads"
+        return "Usage: " + sys.argv[0] + "mongod-server operation numthreads"
 
     chdir('~/mongo')
 
-    resurl = sys.argv[1] + '/experiment'
-    dburl = sys.argv[2]
-    operation = sys.argv[3]
-    numthreads = int(sys.argv[4])
+    dburl = sys.argv[1]
+    operation = sys.argv[2]
+    numthreads = int(sys.argv[3])
 
     options = {
         'numThreads': numthreads,
@@ -36,7 +35,7 @@ def main():
 
     while True:
         print "Starting load"
-        subprocess.call(['mongo', '--eval', configstr, resurl, scriptname])
+        subprocess.call(['mongo', '--eval', configstr, '--nodb', scriptname])
 
 if __name__ == '__main__':
     fixpath()
