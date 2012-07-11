@@ -21,7 +21,7 @@ def main():
 
     options = {
         'numThreads': numthreads,
-        'numSeconds': 10800,
+        'numSeconds': 2,
         'saveResult': 'no',
         'databaseURL': dburl
     }
