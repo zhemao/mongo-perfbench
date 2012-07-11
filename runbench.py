@@ -7,8 +7,58 @@
 import sys
 import os
 import subprocess
+import time
 from helpers import *
 import json
+
+def start_hold(host, baseconfig):
+    config = {
+        'numTrials': 1,
+        'numSeconds': 10800,
+        'databaseURL': baseconfig['database-server'],
+        'saveResult': 'no'
+    }
+
+    configstr = "'" + json.dumps(config) + "'"
+
+    command = ['nohup', 'python', '~/mongo/perfbench/runexperiment.py', configstr,
+               '<', '/dev/null', '&>', '~/holdit.log', '&']
+    
+    return sshcall(host, command)
+
+def run_experiment(host, threads, extern, baseconfig):
+    config = {
+        'numThreads': threads,
+        'externThreads': extern,
+        'databaseURL': baseconfig['database-server'],
+        'resultURL': baseconfig['results-server'],
+        'testServerInfo': baseconfig['server-info'],
+        'numSeconds': baseconfig['seconds']
+    }
+
+    configstr = "'" + json.dumps(config) + "'"
+
+    command = ['python', '~/mongo/perfbench/runexperiment.py', configstr]
+
+    return sshcall(host, command)
+
+def rampup(host, prevhosts, config):
+    maxthreads = config['maxthreads']
+    incr = config['increment']
+    dbhost = config['database-server']
+
+    for i in range(incr, maxthreads+1, incr):
+        sshcall(dbhost, 'python ~/mongo/perfbench/cleanandrestart.py')
+
+        for phost in prevhosts:
+            sshcall(phost, 'python ~/mongo/perfbench/stopexperiment.py')
+            start_hold(phost, config)
+
+        time.sleep(2)
+
+        extern = len(prevhosts) * maxthreads
+
+        run_experiment(host, i, extern, config)
 
 def main():
     if len(sys.argv) < 2:
@@ -18,39 +68,18 @@ def main():
     config = json.load(f)
     f.close()
 
-    resurl = config['results-server']
-    dburl = config['database-server']
-    operation = config['operation']
-    threads = config['maxthreads']
-    seconds = config.get('seconds', 120)
-    trials = config.get('trials', 5)
+    load_servers = config['load-servers']
 
     p = sshpopen(dburl, 'python ~/mongo/perfbench/getserverinfo.py', stdout=subprocess.PIPE)
     (output, _) = p.communicate()
     config['server-info'] = json.loads(output)
 
-    config['extern-threads'] = 0
+    for (i, host) in enumerate(load_servers):
+        prevhosts = load_servers[:i]
+        rampup(host, prevhosts, config)
 
-    for host in config['load-servers']:
-        print host + "->" + dburl
-
-        configstr = "'" + json.dumps(config) + "'"
-
-        ret = sshcall(host, ['python', '~/mongo/perfbench/rampup.py', configstr])
-
-        if ret != 0:
-            print "rampup returned abnormally - aborting..."
-            break
-        
-        command = "nohup python ~/mongo/perfbench/holdit.py %s %s %d \
-                        < /dev/null &> ~/holdit.log &" % (dburl, operation, threads)
-        sshcall(host, command)
-        
-        config['extern-threads'] += config['maxthreads']
-
-    for host in config['load-servers']:
-        sshcall(host, 'python ~/mongo/perfbench/stophold.py')
+    for host in load_servers:
+        sshcall(host, 'python ~/mongo/perfbench/stopexperiment.py')
 
 if __name__ == '__main__':
-    fixpath()
     sys.exit(main())
