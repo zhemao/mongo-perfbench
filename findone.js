@@ -65,11 +65,10 @@ mongo.benchmark.findOne.run = function() {
     var fo = mongo.benchmark.findOne.options;
     var mbrd = mongo.benchmark.result.defaults;
     var mbu = mongo.benchmark.utils;
-    var conn = new Mongo(fo.resultURL);
-
-    fo = mbu.addOptionsFromDB(conn, fo);
     
     if (fo.saveResult == "yes") {
+        var conn = new Mongo(fo.resultURL);
+        fo = mbu.addOptionsFromDB(conn, fo);
         var experimentResult = mongo.benchmark.utils.insert(conn, fo);
     }
   

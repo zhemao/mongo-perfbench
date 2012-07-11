@@ -67,11 +67,10 @@ mongo.benchmark.inplaceupdate.run = function() {
     var uo = mongo.benchmark.inplaceupdate.options;
     var mbrd = mongo.benchmark.result.defaults;
     var mbu = mongo.benchmark.utils;
-    var conn = new Mongo(uo.resultURL);
-
-    uo = addOptionsFromDB(conn, uo);
     
     if (uo.saveResult == "yes") {
+        var conn = new Mongo(uo.resultURL);
+        uo = addOptionsFromDB(conn, uo);
         var experimentResult = mongo.benchmark.utils.insert(conn, uo);
     }
   
