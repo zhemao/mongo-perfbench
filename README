@@ -31,17 +31,3 @@ Run the runbench.py script
 
     python runbench.py config.json
 
-Detailed info
-
-The workhorses of the performance benchmarking are the rampup.sh and holdit.sh
-scripts.
-
-rampup.py runs the benchmarking scripts against the server repeatedly with the 
-number of threads increasing each time.
-
-holdit.py runs the findone.js benchmark in an infinite while loop with
-the maximum numbers of threads
-
-There are also a few helper scripts
-
-cleanandrestart.py stops mongod, resets the data files to the original state, and then restarts
