@@ -4,10 +4,14 @@ import json
 import subprocess
 from helpers import *
 
-# Run the benchmarks continuously, ramping up the number of threads each time
-# Usage: python rampup.py config
-# config is a json string
-# see example.json for the configuration syntax
+# Run a single experiment.
+# Usage: runexperiment.py operation suite config
+# Operation is the operation that is to be run.
+# It can be findone, insert, update, or inplace_insert.
+# Suite is the name of the suite whose configuration will be pulled 
+# from the result server.
+# Config is a json object that will be passed in as the globalExtraOption
+# variable to the javascript code.
 
 def main():
     if len(sys.argv) < 4:

@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
-# This is the script that starts it all
+# This is the script that runs the show
 # Usage: python runbench.py config.json
 # See example.json for the configuration syntax
+# Make sure whatever server this script is running from can ssh into
+# the load servers and the database server without user input
 
 import sys
 import os
