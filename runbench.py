@@ -15,7 +15,7 @@ import json
 
 def start_hold(host, baseconfig):
     operation = baseconfig['operation']
-    suite = baseconfig['suite']
+    suite = baseconfig.get('suite', 'nosuite')
 
     config = {
         'numTrials': 1,
@@ -34,7 +34,7 @@ def start_hold(host, baseconfig):
 
 def run_experiment(host, threads, extern, baseconfig):
     operation = baseconfig['operation']
-    suite = baseconfig['suite']
+    suite = baseconfig.get('suite', 'nosuite')
     
     config = {
         'numThreads': threads,

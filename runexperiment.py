@@ -23,7 +23,11 @@ def main():
 
     chdir('~/mongo')
 
-    configstr = 'globalExtraOption = %s; suiteName = "%s";' % (json.dumps(config), suite)
+    if suite == 'nosuite':
+        configstr = 'globalExtraOption = %s;' % json.dumps(config)
+    else:
+        configstr = 'globalExtraOption = %s; suiteName = "%s";' % (json.dumps(config), suite)
+    
     scriptname = 'perfbench/%s.js' % operation
 
     proc = subprocess.Popen(['mongo', '--eval', configstr, '--nodb', scriptname])
