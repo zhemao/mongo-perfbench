@@ -3,6 +3,7 @@ import os
 import json
 import subprocess
 from helpers import *
+import time
 
 # Run the benchmarks continuously, ramping up the number of threads each time
 # Usage: python rampup.py config
@@ -27,6 +28,9 @@ def main():
     for i in range(incr, maxthreads+1, incr):
         sshcall(dburl, 'python ~/mongo/perfbench/cleanandrestart.py')
         print "Load testing with %d - %d threads" % (config['extern-threads'], i)
+
+        time.sleep(1)
+        
         options = {
             "numThreads"    : i,
             "databaseURL"   : dburl,
@@ -37,7 +41,6 @@ def main():
         }
 
         configstr = 'globalExtraOption = %s; suiteName = "%s";' % (json.dumps(options), suite)
-
         scriptname = 'perfbench/%s.js' % operation
 
         ret = subprocess.call(['mongo', '--eval', configstr, '--nodb', scriptname])
