@@ -22,6 +22,7 @@ def main():
     dburl = config['database-server']
     operation = config['operation']
     threads = config['maxthreads']
+    seconds = config['seconds']
 
     p = sshpopen(dburl, 'python ~/mongo/perfbench/getserverinfo.py', stdout=subprocess.PIPE)
     (output, _) = p.communicate()
@@ -40,8 +41,8 @@ def main():
             print "rampup returned abnormally - aborting..."
             break
         
-        command = "nohup python ~/mongo/perfbench/holdit.py %s %s %d \
-                        < /dev/null &> ~/holdit.log &" % (dburl, operation, threads)
+        command = "nohup python ~/mongo/perfbench/holdit.py %s %s %d %d \
+                        < /dev/null &> ~/holdit.log &" % (dburl, operation, threads, seconds + 5)
         sshcall(host, command)
         
         config['extern-threads'] += config['maxthreads']

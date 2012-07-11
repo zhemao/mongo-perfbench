@@ -10,18 +10,19 @@ from helpers import *
 import json
 
 def main():
-    if len(sys.argv) < 4:
-        return "Usage: " + sys.argv[0] + "mongod-server operation numthreads"
+    if len(sys.argv) < 5:
+        return "Usage: " + sys.argv[0] + "mongod-server operation numthreads seconds"
 
     chdir('~/mongo')
 
     dburl = sys.argv[1]
     operation = sys.argv[2]
     numthreads = int(sys.argv[3])
+    seconds = int(sys.argv[4])
 
     options = {
         'numThreads': numthreads,
-        'numSeconds': 2,
+        'numSeconds': seconds,
         'saveResult': 'no',
         'databaseURL': dburl
     }
