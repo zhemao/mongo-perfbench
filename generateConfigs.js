@@ -7,18 +7,15 @@ rbgopts = [true, false];
 sbgopts = [true, false];
 mongodopts = ["single", "replSet"];
 
+var i = 0;
+
 hardwareopts.forEach(function (hw) {
     ramopts.forEach(function (fitsinram) {
         rbgopts.forEach(function (bgRead) {
             sbgopts.forEach(function (bgSlow) {
                 mongodopts.forEach(function (md) {
-                    var name = hw + ((fitsinram) ? "-inRAM" : "-notInRAM")
-                                  + ((bgRead) ? "-readInBackground" : "")
-                                  + ((bgSlow) ? "-slowOpsInBackground" : "")
-                                  + "-" + md;
-
                     var config = {
-                        suiteName: name,
+                        suiteName: "config" + i,
                         dataSetFitsInRam: (fitsinram) ? "yes" : "no",
                         backgroundReadRunning: (bgRead) ? "yes": "no",
                         backgroundSlowOpsRunning: (bgSlow) ? "yes": "no",
@@ -26,6 +23,7 @@ hardwareopts.forEach(function (hw) {
                         hardwareType: hw
                     };
                     db.configs.insert(config);
+                    i++;
                 });
             });
         });
