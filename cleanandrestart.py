@@ -1,7 +1,6 @@
 import os
 import signal
 import subprocess
-import glob
 import sys
 from helpers import fixpath
 
@@ -35,10 +34,10 @@ def main():
     while dblocked():
         pass
 
-    dbfiles = glob.glob('/mnt/basedb/*')
-    dbloc = os.path.expanduser('~/datadb')
+    dbsrc = '/mnt/basedb/'
+    dbdest = os.path.expanduser('~/datadb')
 
-    subprocess.call(['rsync', '-avz', '--delete'] + dbfiles + [dbloc])
+    subprocess.call(['rsync', '-avz', '--delete', dbsrc, dbdest])
 
     conffile = os.path.expanduser('~/.mongod.conf')
     return subprocess.call(['mongod', '-f', conffile, '--fork'])
