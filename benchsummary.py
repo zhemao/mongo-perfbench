@@ -4,7 +4,7 @@ import json
 import sys
 
 def total_ops(trial):
-    return sum(trial[op] for op in ['query', 'insert', 'update', 'delete', 'command'])
+    return sum(trial[op] for op in ['query', 'insert', 'update', 'delete'])
 
 def summarize_data(data):
     name = data['name']
