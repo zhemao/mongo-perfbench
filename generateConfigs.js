@@ -1,3 +1,6 @@
+// This script generates all the possible configurations that can be 
+// used in the performance benchmarking.
+
 hardwareopts = ["ec2-ebs", "ec2-instance", "baremetal"];
 ramopts = [true, false];
 rbgopts = [true, false];
