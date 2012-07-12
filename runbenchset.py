@@ -22,7 +22,8 @@ import sys
 
 def main():
     if len(sys.argv) < 2:
-        return "Usage: " + sys.argv[0] + ' configfile.json'
+        print "Usage: " + sys.argv[0] + ' configfile.json'
+        return 1
 
     f = open(sys.argv[1])
     config = json.load(f)

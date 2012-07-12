@@ -29,7 +29,8 @@ from helpers import *
 
 def main():
     if len(sys.argv) < 4:
-        return "Usage: " + sys.argv[0] + " operation suite config"
+        print "Usage: " + sys.argv[0] + " operation suite config"
+        return 1
 
     operation = sys.argv[1]
     suite = sys.argv[2]
