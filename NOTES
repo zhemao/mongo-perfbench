@@ -1,0 +1,47 @@
+MongoDB Automated Performance Benchmarks
+
+This is a general overview of the performance benchmarking scripts for mongodb.
+
+This directory contains 4 javascript benchmarks: findone.js, insert.js, 
+update.js, and inplace_update.js. These scripts will repeatedly perform a 
+specific operation (which should be self-evident from their names) using a given
+number of threads for a given amount of time against a test database. The
+results of this benchmark are then stored in a separate results database.
+
+These scripts use several configuration variables which can be set through 
+different methods. The default values for the configuration variables are read 
+from the default_values.js script. Certain options can be sent by assigning an 
+object to the globalExtraOption variable. This can be done using the mongo 
+shell's --eval option. 
+
+    Example: mongo --eval "globalExtraOption = {};" perfbench/findone.js
+
+The options that can be set through this method include the number of trials
+for the script to perform, the number of threads to use (each thread performs
+a concurrent request), the number of seconds to run each trial for, connection
+information for the test database, connection information for the results
+database, and operating system information for the test database.
+
+Some options can be set by storing documents in the configs collection of the
+results database. The options stored here are information about the conditions
+under which the test was run. This includes whether the test database is on
+an EC2 instance with an EBS root volume or a bare-metal machine with a physical
+hard drive, whether there are operations running in the background, or whether 
+the database is a single mongod instance or a replica set. 
+
+    {
+        "suiteName" : "ec2-ebs-inRAM-readInBackground-slowOpsInBackground-single",
+        "dataSetFitsInRam" : "yes",
+        "backgroundReadRunning" : "yes",
+        "backgroundSlowOpsRunning" : "yes",
+        "mongo" : "single",
+        "hardwareType" : "ec2-ebs"
+    }
+
+The performance benchmarking tools also included a set of python scripts that
+wrap the javascript benchmarks. These python scripts run the javascript
+benchmarks repeatedly using a steadily increasing number of threads on multiple
+servers. The main script is called runbench.py. It gets passed a json 
+configuration file on the command line (you can see an example of this in
+example.json). The runbench script runs essentially as follows. 
+
