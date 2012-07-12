@@ -16,6 +16,10 @@
 
 # Creates a sysinfo document. The script runs the 'uname' command on the OS,
 # parses the output from that command and plugs it into the sysinfo document.
+# There are some assumptions/caveats here :
+# Assumption 1 : If the OS is Windows then the filesystem is assumed to be NTFS.
+# Assumption 2 : If the OS is Darwin then the OS/filesystem is assumed to be Mac/HFS+.
+
 
 import platform
 import os
