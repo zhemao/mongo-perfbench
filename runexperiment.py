@@ -1,9 +1,3 @@
-import sys
-import os
-import json
-import subprocess
-from helpers import *
-
 #    Copyright (C) 2012 10gen Inc.
 #
 #    This program is free software: you can redistribute it and/or  modify
@@ -18,15 +12,20 @@ from helpers import *
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-# Run a single experiment.
+# Run a single experiment for a specific operation
 # Usage: runexperiment.py operation suite config
+#
 # Operation is the operation that is to be run.
 # It can be findone, insert, update, or inplace_insert.
 # Suite is the name of the suite whose configuration will be pulled 
 # from the result server.
-# Config is a json object that will be passed in as the globalExtraOption
-# variable to the javascript code.
+# config is a json object that can be used to override the "default config values" from the suite.
+
+import sys
+import os
+import json
+import subprocess
+from helpers import *
 
 def main():
     if len(sys.argv) < 4:

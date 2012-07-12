@@ -1,8 +1,4 @@
-import os
-import signal
-import subprocess
-import sys
-from helpers import fixpath
+#!/usr/bin/env python
 
 #    Copyright (C) 2012 10gen Inc.
 #
@@ -18,9 +14,14 @@ from helpers import fixpath
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-# This script will stop mongod, restore the database to a previous state
+# This script will stop mongod, restore the database to a clean state
 # and then restart mongod.
+
+import os
+import signal
+import subprocess
+import sys
+from helpers import fixpath
 
 lockfilepath = os.path.expanduser('~/datadb/mongod.lock')
 

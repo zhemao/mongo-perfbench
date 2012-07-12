@@ -1,7 +1,3 @@
-import os
-import sys
-import subprocess
-
 #    Copyright (C) 2012 10gen Inc.
 #
 #    This program is free software: you can redistribute it and/or  modify
@@ -17,6 +13,10 @@ import subprocess
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Various helper functions used by the other scripts
+
+import os
+import sys
+import subprocess
 
 def chdir(path='~'):
     """change the current directory, expanding any user aliases in path"""

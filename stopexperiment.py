@@ -1,6 +1,4 @@
-import os
-import signal
-import subprocess
+#!/usr/bin/env python
 
 #    Copyright (C) 2012 10gen Inc.
 #
@@ -16,6 +14,9 @@ import subprocess
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
+import signal
+import subprocess
 
 # This script will stop a running experiment
 # This script requires not arguments
