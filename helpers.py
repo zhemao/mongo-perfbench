@@ -16,30 +16,24 @@ import subprocess
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Various helper functions used by the other scripts
 
+# change the current directory
+# user aliases will be expanded
 def chdir(path='~'):
     os.chdir(os.path.expanduser(path))
 
+# run a command on a remote host using subprocess.Popen
 def sshpopen(host, command, **kwargs):
     if isinstance(command, list):
         command = ' '.join(command)
     return subprocess.Popen(['ssh', '-n', host, command], **kwargs)
 
+# run a command on a remote host using subprocess.call
 def sshcall(host, command, **kwargs):
     if isinstance(command, list):
         command = ' '.join(command)
     return subprocess.call(['ssh', '-n', host, command], **kwargs)
-
-def writepid():
-    pid = os.getpid()
-    bname = os.path.basename(sys.argv[0])
-    name, ext = os.path.splitext(bname)
-
-    pidfilepath = os.path.join(os.getenv('HOME'), name + '.pid')
-
-    f = open(pidfilepath, 'w')
-    f.write(str(pid))
-    f.close()
 
 def fixpath():
     homebin = os.path.join(os.getenv('HOME'), 'bin')
