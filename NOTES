@@ -7,6 +7,8 @@ update.js, and inplace_update.js. These scripts will repeatedly perform a
 specific operation (which should be self-evident from their names) using a given
 number of threads for a given amount of time against a test database. The
 results of this benchmark are then stored in a separate results database.
+(Note: here, by database, I mean a separate mongod instance running on a
+separate server.)
 
 These scripts use several configuration variables which can be set through 
 different methods. The default values for the configuration variables are read 
