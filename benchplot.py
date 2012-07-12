@@ -22,6 +22,7 @@
 
 import json
 import matplotlib.pyplot as plt
+import numpy as np
 import sys
 
 def total_ops(trial):
@@ -58,6 +59,10 @@ def main():
         allThreads.append(threads)
         allOps.append(ops)
         allLatency.append(lat)
+
+    coefficients = np.polyfit(allOps, allLatency, 1)
+    equation = np.poly1d(coefficients)
+    bestfit = equation(allOps)
     
     # Begin plotting code
     plt.figure(1)
@@ -78,7 +83,8 @@ def main():
     plt.subplot(313)
     plt.ylabel('Latency(micros)')
     plt.xlabel('Ops/sec')
-    plt.plot(allOps, allLatency, 'r:')
+    plt.scatter(allOps, allLatency)
+    plt.plot(allOps, bestfit)
     plt.show()
     # End plotting code
 
