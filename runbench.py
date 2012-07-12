@@ -87,14 +87,7 @@ def rampup(host, prevhosts, config):
 
         run_experiment(host, i, extern, config)
 
-def main():
-    if len(sys.argv) < 2:
-        return "Usage: " + sys.argv[0] + ' configfile.json'
-
-    f = open(sys.argv[1])
-    config = json.load(f)
-    f.close()
-
+def run_benchmark(config):
     dburl = config['database-server']
     load_servers = config['load-servers']
 
@@ -108,6 +101,16 @@ def main():
 
     for host in load_servers:
         sshcall(host, 'python ~/mongo/perfbench/stopexperiment.py')
+
+def main():
+    if len(sys.argv) < 2:
+        return "Usage: " + sys.argv[0] + ' configfile.json'
+
+    f = open(sys.argv[1])
+    config = json.load(f)
+    f.close()
+
+    run_benchmark(config)
 
 if __name__ == '__main__':
     sys.exit(main())
