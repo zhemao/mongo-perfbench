@@ -108,7 +108,8 @@ def run_benchmark(config):
     dburl = config['database-server']
     load_servers = config['load-servers']
 
-    p = sshpopen(dburl, 'python ~/mongo/perfbench/getserverinfo.py', stdout=subprocess.PIPE)
+    p = sshpopen(dburl, 'python ~/mongo/perfbench/getserverinfo.py', 
+                 stdout=subprocess.PIPE)
     (output, _) = p.communicate()
     config['server-info'] = json.loads(output)
     

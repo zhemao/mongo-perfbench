@@ -19,7 +19,8 @@
 # It can be findone, insert, update, or inplace_insert.
 # Suite is the name of the suite whose configuration will be pulled 
 # from the result server.
-# config is a json object that can be used to override the "default config values" from the suite.
+# config is a json object that can be used to override the 
+# "default config values" from the suite.
 
 import sys
 import os
@@ -42,12 +43,14 @@ def main():
     if suite == 'nosuite':
         configstr = 'globalExtraOption = %s;' % json.dumps(config)
     else:
-        configstr = 'globalExtraOption = %s; suiteName = "%s";' % (json.dumps(config), suite)
+        configstr = 'globalExtraOption = %s; suiteName = "%s";' % 
+                        (json.dumps(config), suite)
     
     scriptname = 'perfbench/%s.js' % operation
 
     # start mongo
-    proc = subprocess.Popen(['mongo', '--eval', configstr, '--nodb', scriptname])
+    proc = subprocess.Popen(['mongo', '--eval', configstr, 
+                             '--nodb', scriptname])
     
     # write out the pid of the mongo process
     # this will allow stopexperiment.py to kill the process if necessary
