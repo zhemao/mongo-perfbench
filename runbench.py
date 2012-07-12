@@ -64,7 +64,8 @@ def run_experiment(host, threads, extern, baseconfig):
         'databaseURL': baseconfig['database-server'],
         'resultURL': baseconfig['results-server'],
         'testServerInfo': baseconfig['server-info'],
-        'numSeconds': baseconfig['seconds']
+        'numSeconds': baseconfig.get('seconds', 120),
+        'numTrials': baseconfig.get('trials', 5)
     }
 
     configstr = "'" + json.dumps(config) + "'"
