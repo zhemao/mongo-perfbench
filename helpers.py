@@ -18,24 +18,25 @@ import subprocess
 
 # Various helper functions used by the other scripts
 
-# change the current directory
-# user aliases will be expanded
 def chdir(path='~'):
+    """change the current directory, expanding any user aliases in path"""
     os.chdir(os.path.expanduser(path))
 
-# run a command on a remote host using subprocess.Popen
 def sshpopen(host, command, **kwargs):
+    """run a command on a remote host using subprocess.Popen"""
     if isinstance(command, list):
         command = ' '.join(command)
     return subprocess.Popen(['ssh', '-n', host, command], **kwargs)
 
-# run a command on a remote host using subprocess.call
 def sshcall(host, command, **kwargs):
+    """run a command on a remote host using subprocess.call"""
     if isinstance(command, list):
         command = ' '.join(command)
     return subprocess.call(['ssh', '-n', host, command], **kwargs)
 
 def fixpath():
+    """fix the PATH variable in the current environment such that the bin
+    directory in the user's home directory is included"""
     homebin = os.path.join(os.getenv('HOME'), 'bin')
     if homebin not in os.getenv('PATH').split(os.pathsep):
         os.environ['PATH'] = homebin + os.pathsep + os.getenv('PATH')
