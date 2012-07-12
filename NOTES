@@ -43,5 +43,51 @@ wrap the javascript benchmarks. These python scripts run the javascript
 benchmarks repeatedly using a steadily increasing number of threads on multiple
 servers. The main script is called runbench.py. It gets passed a json 
 configuration file on the command line (you can see an example of this in
-example.json). The runbench script runs essentially as follows. 
+example.json). The most important configuration options are database-server, 
+which is the hostname of the server on which the test database is running; 
+results-server, which is the hostname of the server on which the results 
+database is running; load-servers, which are the hostnames of the servers 
+running the javascript benchmarks; maxthreads, which is the maximum number of
+threads that will be used per server; and increment, which is the amount by 
+which the number of threads will be incremented for each experiment. 
 
+The runbench.py script runs essentially as follows.
+
+1) SSH into the database server and run the getserverinfo.py script in order
+   to obtain relevant information about the server: including the name and 
+   version of the operating system and the type of filesystem on which the
+   test database is storing its data.
+
+2) SSH into the first of the load testing servers and run the runexperiment.py
+   script (a simple wrapper around the js benchmarks) with the lowest number
+   of threads. This will be whatever number the increment option is set to.
+
+3) SSH into the database server and run cleanandrestart.py This script will 
+   stop mongod, reset the data files to their original state by syncing with a 
+   backup directory, and restart mongod.
+
+4) Increment the number of threads by the increment amount and repeat the 
+   experiment. Keep repeating the experiments, resetting the database and 
+   incrementing the number of threads each time until you reach the maximum
+   number of threads. 
+
+5) After the maximum number of threads has been reached on the first server,
+   run runexperiment.py with the maximum number of threads on the first server
+   and then run runexperiment.py with the lowest number of threads on the 
+   second load server. 
+
+6) Start running experiments on the second server with increasing numbers of
+   threads. Before starting an experiment, runbench.py will reset the database
+   as well as restarting runexperiment.py on the first server with the maximum
+   number of threads.
+
+7) Once maxthreads is reached on the second server, SSH into the third server
+   and start running with incrementing number of threads there. The script
+   keeps doing this for however many load servers have been provided in the
+   configuration. The runbench.py script will always run runexperiment.py on
+   all previous servers with the maximum number of threads while the 
+   experiments on the current server are running. 
+
+8) In the end, your results database will be populated with results detailing
+   of running runexperiment.py on each of the load servers with different
+   numbers of threads. 
