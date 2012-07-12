@@ -95,8 +95,11 @@ def rampup(host, prevhosts, config):
             sshcall(phost, 'python ~/mongo/perfbench/stopexperiment.py')
             start_hold(phost, config)
 
+        # sleep for a few seconds to wait for the other 
+        # load servers to warm up
         time.sleep(2)
 
+        # calculate the number of threads running on the other servers 
         extern = len(prevhosts) * maxthreads
 
         print "Load testing with %d threads and %d external" % (i, extern)
@@ -108,6 +111,7 @@ def run_benchmark(config):
     dburl = config['database-server']
     load_servers = config['load-servers']
 
+    # get information from the test database server
     p = sshpopen(dburl, 'python ~/mongo/perfbench/getserverinfo.py', 
                  stdout=subprocess.PIPE)
     (output, _) = p.communicate()

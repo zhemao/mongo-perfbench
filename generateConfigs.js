@@ -10,12 +10,15 @@ mongodopts = ["single", "replSet"];
 
 var i = 0;
 
+// nasty-ass nested foreach loop
 hardwareopts.forEach(function (hw) {
     ramopts.forEach(function (fitsinram) {
         rbgopts.forEach(function (bgRead) {
             sbgopts.forEach(function (bgSlow) {
                 mongodopts.forEach(function (md) {
+                    // set up the document
                     var config = {
+                        // names are config0, config1, config2, etc.
                         suiteName: "config" + i,
                         dataSetFitsInRam: (fitsinram) ? "yes" : "no",
                         backgroundReadRunning: (bgRead) ? "yes": "no",
