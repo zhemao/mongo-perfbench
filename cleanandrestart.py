@@ -26,24 +26,26 @@ from helpers import fixpath
 lockfilepath = os.path.expanduser('~/datadb/mongod.lock')
 
 def kill_mongod(sig):
-    """Send the signal sig to the running mongod process"""
+    """Send the signal sig to the running mongod process.
+       Returns True if the signal was sent successfully.
+       Return False if no mongod process is running."""
     try:
         # read in the pid from the lockfile
         f = open(lockfilepath)
         pid = f.read().strip()
         if len(pid) == 0:
-            return 1
+            return False
         # send the signal to the process with that pid
         os.kill(int(pid), sig)
         f.close()
-        return 0
+        return True
     except OSError:
-        return 1
+        return False
 
 def dblocked():
     """Determine whether a mongod process is running"""
     if os.path.exists(lockfilepath) and os.path.getsize(lockfilepath) > 0:
-        return not kill_mongod(0)
+        return kill_mongod(0)
     return False
 
 def main():
