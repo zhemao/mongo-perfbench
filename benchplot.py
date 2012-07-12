@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import json
+import matplotlib.pyplot as plt
 import sys
 
 def total_ops(trial):
@@ -54,7 +55,7 @@ def main():
     plt.subplot(313)
     plt.ylabel('Latency(micros)')
     plt.xlabel('Ops/sec')
-    plt.plot(allOps, allLatency)
+    plt.plot(allOps, allLatency, 'r:')
     plt.show()
 
 if __name__ == '__main__':
