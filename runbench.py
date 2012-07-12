@@ -111,11 +111,17 @@ def run_benchmark(config):
     p = sshpopen(dburl, 'python ~/mongo/perfbench/getserverinfo.py', stdout=subprocess.PIPE)
     (output, _) = p.communicate()
     config['server-info'] = json.loads(output)
+    
+    # clean up any processes left over from previous scripts
+    for host in load_servers:
+        sshcall(host, 'python ~/mongo/perfbench/stopexperiment.py')
 
+    # run the benchmark
     for (i, host) in enumerate(load_servers):
         prevhosts = load_servers[:i]
         rampup(host, prevhosts, config)
 
+    # stop all the hold processes
     for host in load_servers:
         sshcall(host, 'python ~/mongo/perfbench/stopexperiment.py')
 
