@@ -88,6 +88,7 @@ def rampup(host, prevhosts, config):
         run_experiment(host, i, extern, config)
 
 def run_benchmark(config):
+    """Run the entire benchmark using the given configuration"""
     dburl = config['database-server']
     load_servers = config['load-servers']
 

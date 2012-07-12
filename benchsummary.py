@@ -1,12 +1,19 @@
 #!/usr/bin/env python
 
+# Generates a text summary of the results of the benchmark
+# Usage: benchsummary.py [results.json]
+# The first argument is a json file such as that created by mongoexport
+# If no argument is given, the json will be read from standard input
+
 import json
 import sys
 
 def total_ops(trial):
+    """Calculate the total number of operations performed in this trial"""
     return sum(trial[op] for op in ['query', 'insert', 'update', 'delete'])
 
 def summarize_data(data):
+    """Print out a one line summary of this data point"""
     name = data['name']
     numThreads = data['numThreads']
     numTrials = data['numTrials']

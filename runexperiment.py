@@ -23,6 +23,7 @@ def main():
 
     chdir('~/mongo')
 
+    # set up the string that will be passed in using --eval
     if suite == 'nosuite':
         configstr = 'globalExtraOption = %s;' % json.dumps(config)
     else:
@@ -30,11 +31,16 @@ def main():
     
     scriptname = 'perfbench/%s.js' % operation
 
+    # start mongo
     proc = subprocess.Popen(['mongo', '--eval', configstr, '--nodb', scriptname])
     
+    # write out the pid of the mongo process
+    # this will allow stopexperiment.py to kill the process if necessary
     f = open('/tmp/perfbench.pid', 'w')
     f.write(str(proc.pid))
     f.close()
+
+    # wait for the mongo process to stop and then exit with its returncode
 
     proc.wait()
 

@@ -1,3 +1,7 @@
+# Runs a set of benchmarks using the given configuration
+# The operation field is ignored
+# Instead this script will iterate through all possible operations
+
 from runbench import run_benchmark
 import json
 import sys
