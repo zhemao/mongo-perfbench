@@ -38,5 +38,7 @@ def fixpath():
     """fix the PATH variable in the current environment such that the bin
     directory in the user's home directory is included"""
     homebin = os.path.join(os.getenv('HOME'), 'bin')
+    if not os.path.isdir(homebin):
+        return
     if homebin not in os.getenv('PATH').split(os.pathsep):
         os.environ['PATH'] = homebin + os.pathsep + os.getenv('PATH')
