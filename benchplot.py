@@ -24,6 +24,7 @@ import json
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
+from optparse import OptionParser
 
 def total_ops(trial):
     """Calculate the total number of operations performed in this trial"""
@@ -42,8 +43,14 @@ def summarize_data(data):
     return numThreads, avgops, avglat
 
 def main():
-    if len(sys.argv) > 1:
-        f = open(sys.argv[1])
+    parser = OptionParser(usage="%prog [options] [results-file.json]")
+    parser.add_option('-t', '--title', dest='title', default="Results",
+                      help="The title to use when labeling the graph.")
+    
+    options, args = parser.parse_args()
+
+    if len(args) > 0:
+        f = open(args[0])
     else:
         f = sys.stdin
 
@@ -65,26 +72,40 @@ def main():
     bestfit = equation(allOps)
     
     # Begin plotting code
-    plt.figure(1)
+    fig = plt.figure(1)
+
+    ax = fig.add_subplot(111)
+    for side in ['top', 'bottom', 'left', 'right']:
+        ax.spines[side].set_color('none')
+    ax.tick_params(labelcolor='none', top='off', bottom='off', 
+                   left='off', right='off')
+    ax.set_title(options.title)
     
     # plot threads vs operations
-    plt.subplot(311)
-    plt.xlabel('Threads')
-    plt.ylabel('Number of Ops/sec')
-    plt.plot(allThreads, allOps)
+    ax = fig.add_subplot(311)
+    ax.set_title('Threads vs. Ops/Sec')
+    ax.set_xlabel('Threads')
+    ax.set_ylabel('Number of Ops/sec')
+    ax.plot(allThreads, allOps)
+    ax.autoscale_view()
     
     # plot threads vs latency
-    plt.subplot(312)
-    plt.xlabel('Threads')
-    plt.ylabel('Latency(micros)')
-    plt.plot(allThreads, allLatency)
-    
+    ax = fig.add_subplot(312)
+    ax.set_title('Threads vs. Latency')
+    ax.set_xlabel('Threads')
+    ax.set_ylabel('Latency (microseconds)')
+    ax.plot(allThreads, allLatency)
+    ax.autoscale_view()
+
     # plot operations vs latency
-    plt.subplot(313)
-    plt.ylabel('Latency(micros)')
-    plt.xlabel('Ops/sec')
-    plt.scatter(allOps, allLatency)
-    plt.plot(allOps, bestfit)
+    ax = fig.add_subplot(313)
+    ax.set_title('Ops/sec vs. Latency')
+    ax.set_ylabel('Latency(micros)')
+    ax.set_xlabel('Ops/sec')
+    ax.scatter(allOps, allLatency)
+    ax.plot(allOps, bestfit)
+    ax.autoscale_view()
+    
     plt.show()
     # End plotting code
 
