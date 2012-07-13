@@ -27,6 +27,7 @@ import subprocess
 import time
 from helpers import *
 import json
+from optparse import OptionParser
 
 def start_hold(host, baseconfig):
     """Start a hold operation on host.
@@ -147,15 +148,31 @@ def run_benchmark(config):
         sshcall(host, 'python ~/mongo/perfbench/stopexperiment.py')
 
 def main():
-    if len(sys.argv) < 2:
-        print "Usage: " + sys.argv[0] + ' configfile.json'
+    parser = OptionParser(usage="%prog [options] configfile.json")
+    parser.add_option('-o', '--operation', dest="operation", 
+                      help="The operation to be run in this benchmark.")
+
+    (options, args) = parser.parse_args()
+    
+    if len(args) < 1:
+        parser.print_usage()
         return 1
 
     f = open(sys.argv[1])
     config = json.load(f)
     f.close()
 
-    run_benchmark(config)
+    if options.operation:
+        if options.operation == 'all':
+            operations = ['findone', 'insert', 'update', 'inplace_update']
+        else:
+            operations = [options.operation]
+        
+        for op in operations:
+            config['operation'] = op
+            run_benchmark(config)
+    else:
+        run_benchmark(config)
 
 if __name__ == '__main__':
     sys.exit(main())
