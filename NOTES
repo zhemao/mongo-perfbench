@@ -40,6 +40,16 @@ the database is a single mongod instance or a replica set.
         "hardwareType" : "ec2-ebs"
     }
 
+There is a javascript program called generate_configs.js in this directory that
+will generate a set of standard config documents. You can use this script to
+set up the configs collection like so. 
+
+    mongo your-results-server.com/experiment generate_configs.js
+
+To set up a custom database configuration, create a document like the example
+above and insert it into the configs collections of the experiment database on
+the results server. 
+
 The performance benchmarking tools also included a set of python scripts that
 wrap the javascript benchmarks. These python scripts run the javascript
 benchmarks repeatedly using a steadily increasing number of threads on multiple
