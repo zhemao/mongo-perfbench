@@ -28,6 +28,7 @@ import time
 from helpers import *
 import json
 from optparse import OptionParser
+import socket
 
 def start_hold(host, baseconfig):
     """Start a hold operation on host.
@@ -85,6 +86,15 @@ def run_experiment(host, threads, extern, baseconfig):
 
     return sshcall(host, command)
 
+def wait_for_connection(host, port):
+    while True:
+        try:
+            conn = socket.create_connection((host, port))
+            conn.close()
+            break
+        except socket.error:
+            pass
+
 def rampup(host, noisehosts, prevhosts, config):
     """Run a series of experiments on host, starting with increment and going
        up by increment until maxthreads is reached. Hold operations will
@@ -98,6 +108,9 @@ def rampup(host, noisehosts, prevhosts, config):
     for i in range(incr, maxthreads+1, incr):
         print "Restarting database"
         sshcall(dbhost, 'python ~/mongo/perfbench/cleanandrestart.py')
+        
+        # wait until the server is ready to accept connections
+        wait_for_connection(dbhost, 27017)
 
         # Restart the noise servers
         for nhost in noisehosts:
