@@ -141,7 +141,7 @@ def run_benchmark(config):
     # run the benchmark
     for (i, host) in enumerate(load_servers):
         prevhosts = load_servers[:i]
-        rampup(host, noisehosts, prevhosts, config)
+        rampup(host, noise_servers, prevhosts, config)
 
     # stop all the hold processes
     for host in load_servers:

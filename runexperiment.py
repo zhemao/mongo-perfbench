@@ -47,8 +47,8 @@ def main():
     if suite == 'nosuite':
         configstr = 'globalExtraOption = %s;' % json.dumps(config)
     else:
-        configstr = 'globalExtraOption = %s; suiteName = "%s";' % 
-                        (json.dumps(config), suite)
+        configstr = 'globalExtraOption = %s; suiteName = "%s";' \
+                        % (json.dumps(config), suite)
     
     scriptname = 'perfbench/%s.js' % operation
 
