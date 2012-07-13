@@ -12,9 +12,11 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Runs a set of benchmarks using the given configuration
-# The operation field is ignored
-# Instead this script will iterate through all possible operations
+# Runs a set of benchmarks using the given configuration file.
+# The operation field in the configuration file is ignored.
+# Instead, this script will iterate through all possible operations
+# (i.e. findone, insert, update, inplace_update) and run a benchmark with
+# each operation. 
 
 from runbench import run_benchmark
 import json
