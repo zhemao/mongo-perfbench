@@ -50,6 +50,15 @@ def start_hold(host, baseconfig):
     
     return sshcall(host, command)
 
+def start_noise(host, baseconfig):
+    """Start a noise operation on host
+       The baseconfig argument is the config read from the json file."""
+
+    config = dict(baseconfig)
+    config['operation'] = 'findone'
+
+    return start_hold(host, config)
+
 def run_experiment(host, threads, extern, baseconfig):
     """Start an experiment on host using the given number of threads 
        and external threads. Baseconfig is the config read from the
@@ -75,7 +84,7 @@ def run_experiment(host, threads, extern, baseconfig):
 
     return sshcall(host, command)
 
-def rampup(host, prevhosts, config):
+def rampup(host, noisehosts, prevhosts, config):
     """Run a series of experiments on host, starting with increment and going
        up by increment until maxthreads is reached. Hold operations will
        be run on the hosts in prevhosts. Config is the configuration
@@ -88,6 +97,12 @@ def rampup(host, prevhosts, config):
     for i in range(incr, maxthreads+1, incr):
         print "Restarting database"
         sshcall(dbhost, 'python ~/mongo/perfbench/cleanandrestart.py')
+
+        # Restart the noise servers
+        for nhost in noisehosts:
+            print "Restarting noise on %s" % nhost
+            sshcall(nhost,'python ~/mongo/perfbench/stopexperiment.py')
+            start_noise(nhost, config)
 
         # Restart all the hold operations
         for phost in prevhosts:
@@ -110,6 +125,7 @@ def run_benchmark(config):
     """Run the entire benchmark using the given configuration"""
     dburl = config['database-server']
     load_servers = config['load-servers']
+    noise_servers = config.get('noise-servers', [])
 
     # get information from the test database server
     p = sshpopen(dburl, 'python ~/mongo/perfbench/getserverinfo.py', 
@@ -124,7 +140,7 @@ def run_benchmark(config):
     # run the benchmark
     for (i, host) in enumerate(load_servers):
         prevhosts = load_servers[:i]
-        rampup(host, prevhosts, config)
+        rampup(host, noisehosts, prevhosts, config)
 
     # stop all the hold processes
     for host in load_servers:
