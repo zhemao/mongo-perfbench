@@ -73,17 +73,11 @@ def main():
     
     # Begin plotting code
     fig = plt.figure(1)
+    fig.subplots_adjust(hspace=0.5)
 
-    ax = fig.add_subplot(111)
-    for side in ['top', 'bottom', 'left', 'right']:
-        ax.spines[side].set_color('none')
-    ax.tick_params(labelcolor='none', top='off', bottom='off', 
-                   left='off', right='off')
-    ax.set_title(options.title)
-    
     # plot threads vs operations
     ax = fig.add_subplot(311)
-    ax.set_title('Threads vs. Ops/Sec')
+    ax.set_title(options.title, size='x-large')
     ax.set_xlabel('Threads')
     ax.set_ylabel('Number of Ops/sec')
     ax.plot(allThreads, allOps)
@@ -91,7 +85,6 @@ def main():
     
     # plot threads vs latency
     ax = fig.add_subplot(312)
-    ax.set_title('Threads vs. Latency')
     ax.set_xlabel('Threads')
     ax.set_ylabel('Latency (microseconds)')
     ax.plot(allThreads, allLatency)
@@ -99,7 +92,6 @@ def main():
 
     # plot operations vs latency
     ax = fig.add_subplot(313)
-    ax.set_title('Ops/sec vs. Latency')
     ax.set_ylabel('Latency(micros)')
     ax.set_xlabel('Ops/sec')
     ax.scatter(allOps, allLatency)
