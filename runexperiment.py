@@ -29,13 +29,17 @@ import subprocess
 from helpers import *
 
 def main():
-    if len(sys.argv) < 4:
-        print "Usage: " + sys.argv[0] + " operation suite config"
+    if len(sys.argv) < 3:
+        print "Usage: " + sys.argv[0] + " operation suite [config]"
         return 1
 
     operation = sys.argv[1]
     suite = sys.argv[2]
-    config = json.loads(sys.argv[3])
+
+    if len(sys.argv) < 4:
+        config = {}
+    else:
+        config = json.loads(sys.argv[3])
 
     chdir('~/mongo')
 
