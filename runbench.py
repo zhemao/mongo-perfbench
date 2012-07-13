@@ -158,7 +158,7 @@ def main():
         parser.print_usage()
         return 1
 
-    f = open(sys.argv[1])
+    f = open(args[0])
     config = json.load(f)
     f.close()
 
