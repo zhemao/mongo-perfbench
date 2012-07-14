@@ -70,7 +70,7 @@ mongo.benchmark.inplaceupdate.run = function() {
     
     if (uo.saveResult == "yes") {
         var conn = new Mongo(uo.resultURL);
-        uo = addOptionsFromDB(conn, uo);
+        uo = mbu.addOptionsFromDB(conn, uo);
         var experimentResult = mongo.benchmark.utils.insert(conn, uo);
     }
   
