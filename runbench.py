@@ -25,7 +25,7 @@ import sys
 import os
 import subprocess
 import time
-from helpers import *
+from helpers import sshcall, sshpopen
 import json
 from optparse import OptionParser
 import socket
