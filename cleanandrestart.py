@@ -29,15 +29,17 @@ def kill_mongod(sig):
     """Send the signal sig to the running mongod process.
        Returns True if the signal was sent successfully.
        Return False if no mongod process is running."""
+    # read in the pid from the lockfile
+    f = open(lockfilepath)
+    pid = f.read().strip()
+    f.close()
+
+    if len(pid) == 0:
+        return False
+    
     try:
-        # read in the pid from the lockfile
-        f = open(lockfilepath)
-        pid = f.read().strip()
-        if len(pid) == 0:
-            return False
         # send the signal to the process with that pid
         os.kill(int(pid), sig)
-        f.close()
         return True
     except OSError:
         return False
