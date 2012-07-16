@@ -34,6 +34,8 @@ def summarize_data(data):
     """Calculate and return the number of threads, the average number of
     operations performed, and the average latency."""
     name = data['name']
+    if name == 'inplaceUpdate':
+        name = 'update'
     numThreads = data['numThreads']
     numTrials = data['numTrials']
     avgops = sum([total_ops(trial) for trial in data['trials']]) / numTrials
