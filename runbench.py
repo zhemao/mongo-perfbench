@@ -172,8 +172,14 @@ def main():
         return 1
 
     f = open(args[0])
-    config = json.load(f)
-    f.close()
+
+    try: 
+        config = json.load(f)
+    except ValueError:
+        print "Could not load JSON"
+        return 1
+    finally:
+        f.close()
 
     if options.operation:
         if options.operation == 'all':
