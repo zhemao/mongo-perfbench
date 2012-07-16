@@ -59,8 +59,10 @@ def main():
     # write out the pid of the mongo process
     # this will allow stopexperiment.py to kill the process if necessary
     f = open('/tmp/perfbench.pid', 'w')
-    f.write(str(proc.pid))
-    f.close()
+    try:
+        f.write(str(proc.pid))
+    finally:
+        f.close()
 
     # wait for the mongo process to stop and then exit with its returncode
 

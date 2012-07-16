@@ -31,8 +31,9 @@ def main():
             os.kill(pid, signal.SIGTERM)
         except OSError:
             print "No such process"
-        f.close()
-        os.remove(pidfilepath)
+        finally:
+            f.close()
+            os.remove(pidfilepath)
 
 if __name__ == '__main__':
     main()
