@@ -20,10 +20,21 @@ servers. The following command should do it.
 
     git clone https://github.com/zhemao/mongo.git -b perfbench2 ~/mongo
 
-Step 3: Local configuration
+Step 3: SSH Setup
 
-Create a configuration file on your local computer (or whatever computer you
-will start the benchmark from).
+Go to the computer from which you will be launching the script (we will
+henceforth refer to this machine as the controller). 
+
+On the controller, generate a password-less ssh keypair. Add the public key
+to the authorized_keys files of all the other servers.
+
+SSH into each server once from the controller so that the signatures are added 
+to the controller's known_hosts file. (This is necessary for the benchmarking 
+scripts to work without any user input). 
+
+Step 4: Configuration File
+
+Create a json configuration file on the controller.
 
 Here is an example with an explanation of each of the fields
 
@@ -75,10 +86,10 @@ trials
 load-servers
     A list of hostnames for the servers that will be producing the loads
 
-Step 4: Launch!
+Step 5: Launch!
 
 Run the runbench.py script
 
     python runbench.py config.json
 
-
+Where config.json is the json configuration file that you created in step 4.
