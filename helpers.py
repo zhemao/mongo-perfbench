@@ -37,7 +37,7 @@ def sshcall(host, command, **kwargs):
 def fixpath():
     """fix the PATH variable in the current environment such that the bin
     directory in the user's home directory is included"""
-    homebin = os.path.join(os.getenv('HOME'), 'bin')
+    homebin = os.path.expanduser('~/bin')
     if not os.path.isdir(homebin):
         return
     if homebin not in os.getenv('PATH').split(os.pathsep):
