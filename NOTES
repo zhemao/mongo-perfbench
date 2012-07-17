@@ -4,11 +4,9 @@ This is a general overview of the performance benchmarking scripts for mongodb.
 
 This directory contains 4 javascript benchmarks: findone.js, insert.js, 
 update.js, and inplace_update.js. These scripts will repeatedly perform a 
-specific operation (which should be self-evident from their names) using a given
-number of threads for a given amount of time against a test database. The
-results of this benchmark are then stored in a separate results database.
-(Note: here, by database, I mean a separate mongod instance running on a
-separate server.)
+specific operation using a given number of threads for a given amount of time 
+against a test mongo instance. The results of this benchmark are then stored 
+in a separate results mongo instance.
 
 These scripts use several configuration variables which can be set through 
 different methods. The default values for the configuration variables are read 
@@ -22,7 +20,8 @@ The options that can be set through this method include the number of trials
 for the script to perform, the number of threads to use (each thread performs
 a concurrent request), the number of seconds to run each trial for, connection
 information for the test database, connection information for the results
-database, and operating system information for the test database.
+database, and operating system information for the server the test instance
+is running on.
 
 Some options can be set by storing documents in the configs collection of the
 results database. The options stored here are information about the conditions

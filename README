@@ -9,10 +9,6 @@ $HOME/bin. The scripts will add this directory to the path before running.
 Create a mongodb configuration file in ~/.mongod.conf. 
 See http://www.mongodb.org/display/DOCS/File+Based+Configuration for the syntax.
 
-If you are running on ec2, I suggest that you use the nojournal option. 
-Otherwise, mongod will spend a very long time preallocating journal files
-on startup.
-
 Step 2: Script installation
 
 Clone the mongodb repo (with the perfbench changes) to ~/mongo on each of the
