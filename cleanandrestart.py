@@ -18,6 +18,7 @@
 # and then restart mongod.
 
 import os
+import platform
 import signal
 import subprocess
 import sys
@@ -59,8 +60,12 @@ def main():
     while dblocked():
         pass
 
-    dbsrc = '/mnt/basedb/'
-    dbdest = os.path.expanduser('~/datadb')
+    if platform.system() == 'Windows':
+        dbsrc = 'D:\\basedb\\'
+        dbdest = 'D:\\datadb'
+    else:
+        dbsrc = '/mnt/basedb/'
+        dbdest = os.path.expanduser('~/datadb')
 
     # sync the database back to its original state
     subprocess.call(['rsync', '-avz', '--delete', dbsrc, dbdest])
