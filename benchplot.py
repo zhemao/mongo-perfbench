@@ -56,14 +56,16 @@ def main():
     else:
         f = sys.stdin
 
+    results = [json.loads(line.strip()) for line in f]
+    results.sort(key=lambda obj: obj['numThreads'])
+
     allThreads = []
     allOps = []
     allLatency = []
 
     # go through and append the thread #, ops, and latency 
     # to the proper lists
-    for line in f:
-        data = json.loads(line.strip())
+    for data in results:
         threads, ops, lat = summarize_data(data)
         allThreads.append(threads)
         allOps.append(ops)
