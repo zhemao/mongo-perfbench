@@ -25,6 +25,7 @@ load("perfbench/namespace.js");
 mongo.namespace("mongo.benchmark.result.defaults");
 mongo.namespace("mongo.benchmark.test.defaults");
 
+// The values can be overriden from the command line input
 mongo.benchmark.result.defaults = {
     //some default values
     saveResult : "yes",
@@ -34,7 +35,7 @@ mongo.benchmark.result.defaults = {
     configColl: "configs"
 };
 
-// these can be overriden from the command line input
+//The values can be overriden from the command line input
 mongo.benchmark.test.defaults = {
     //some default values
     databaseURL : "127.0.0.1:27017",
