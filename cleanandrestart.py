@@ -19,14 +19,19 @@
 
 import os
 import platform
+import pymongo
+from pymongo.errors import AutoReconnect
 import signal
 import subprocess
 import sys
 from helpers import fixpath
 
-lockfilepath = os.path.expanduser('~/datadb/mongod.lock')
+if platform.system() == 'Windows':
+    lockfilepath = 'D:\\datadb\\mongod.lock'
+else:
+    lockfilepath = '/mnt/datadb/mongod.lock'
 
-def kill_mongod(sig):
+def send_signal(sig):
     """Send the signal sig to the running mongod process.
        Returns True if the signal was sent successfully.
        Return False if no mongod process is running."""
@@ -47,25 +52,40 @@ def kill_mongod(sig):
 
 def dblocked():
     """Determine whether a mongod process is running"""
-    if os.path.exists(lockfilepath) and os.path.getsize(lockfilepath) > 0:
-        return kill_mongod(0)
-    return False
+    if platform.system() == 'Windows':
+        try:
+            f = open(lockfilepath)
+            f.close()
+            return True
+        except OSError:
+            return False
+    else:
+        if os.path.exists(lockfilepath) and os.path.getsize(lockfilepath) > 0:
+            return send_signal(0)
+        return False
+
+def kill_mongod():
+    try:
+        conn = pymongo.Connection()
+        conn.admin.command('shutdown')
+    except AutoReconnect:
+        pass
 
 def main():
     # kill the mongod process if it is running
     if dblocked():
-        kill_mongod(signal.SIGINT)
+        kill_mongod()
 
     # wait for mongod to finish shutdown
     while dblocked():
         pass
 
     if platform.system() == 'Windows':
-        dbsrc = 'D:\\basedb\\'
-        dbdest = 'D:\\datadb'
+        dbsrc = '/cygdrive/d/basedb/'
+        dbdest = '/cygdrive/d/datadb'
     else:
         dbsrc = '/mnt/basedb/'
-        dbdest = os.path.expanduser('~/datadb')
+        dbdest = '/mnt/datadb'
 
     # sync the database back to its original state
     subprocess.call(['rsync', '-avz', '--delete', dbsrc, dbdest])
