@@ -28,7 +28,7 @@ import json
 
 def main():
     kname, hostname, krel, kver, arch, _ = platform.uname()
-    datadir = os.path.expanduser('~/datadb')
+    datadir = '/mnt/datadb'
     
     if kname == 'Linux':
         p = subprocess.Popen(['df', '-T', datadir], stdout=subprocess.PIPE)
