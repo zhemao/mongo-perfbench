@@ -40,7 +40,7 @@ def start_hold(host, baseconfig):
     config = {
         'numTrials': 1,
         'numSeconds': 10800,
-        'databaseURL': baseconfig['database-server'],
+        'databaseURL': baseconfig['database-server'].split('@')[-1],
         'saveResult': 'no'
     }
 
@@ -72,7 +72,7 @@ def run_experiment(host, threads, extern, baseconfig):
     config = {
         'numThreads': threads,
         'externThreads': extern,
-        'databaseURL': baseconfig['database-server'],
+        'databaseURL': baseconfig['database-server'].split('@')[-1],
         'resultURL': baseconfig['results-server'],
         'testServerInfo': baseconfig['server-info'],
         'numSeconds': baseconfig.get('seconds', 120),
@@ -103,11 +103,20 @@ def rampup(host, noisehosts, prevhosts, config):
 
     maxthreads = config['maxthreads']
     incr = config['increment']
-    dbhost = config['database-server']
+    dburl = config['database-server']
+    dbsystem = config.get('database-system', 'Linux')
 
     for i in range(incr, maxthreads+1, incr):
+        if '@' in dburl:
+            [dbuser, dbhost]  = dburl.split('@')
+        else:
+            dbuser = getpass.getuser()
+        
+        cleanpath = expand_path('~/mongo/perfbench/cleanandrestart.py', 
+                                dbsystem, dbuser)
+
         print "Restarting database"
-        sshcall(dbhost, 'python ~/mongo/perfbench/cleanandrestart.py')
+        sshcall(dburl, ['python', cleanpath])
         
         # wait until the server is ready to accept connections
         wait_for_connection(dbhost, 27017)
@@ -135,14 +144,32 @@ def rampup(host, noisehosts, prevhosts, config):
 
         run_experiment(host, i, extern, config)
 
+def expand_path(path, system, username):
+    if system == 'Windows':
+        path = path.replace('/', '\\')
+        return path.replace('~', 'C:\\Users\\' + username)
+    elif system == 'Darwin':
+        return path.replace('~', '/Users/' + username)
+    else:
+        return path.replace('~', '/home/' + username)
+
 def run_benchmark(config):
     """Run the entire benchmark using the given configuration"""
     dburl = config['database-server']
     load_servers = config['load-servers']
     noise_servers = config.get('noise-servers', [])
+    dbsystem = config.get('database-system', 'Linux')
+
+    if '@' in dburl:
+        dbuser = dburl.split('@')[0]
+    else:
+        dbuser = getpass.getuser()
+
+    getinfopath = expand_path('~/mongo/perfbench/getserverinfo.py', 
+                              dbsystem, dbuser)
 
     # get information from the test database server
-    p = sshpopen(dburl, 'python ~/mongo/perfbench/getserverinfo.py', 
+    p = sshpopen(dburl, ['python', getinfopath],
                  stdout=subprocess.PIPE)
     (output, _) = p.communicate()
     config['server-info'] = json.loads(output)
