@@ -45,30 +45,17 @@ def summarize_data(data):
                     
     return numThreads, avgops, avglat
 
-def main():
-    parser = OptionParser(usage="%prog [options] [results-file.json]")
-    parser.add_option('-t', '--title', dest='title', default="Results",
-                      help="The title to use when labeling the graph.")
-    parser.add_option('-H', '--host', dest='host', default='127.0.0.1',
-                      help="The mongodb host to connect to")
-    parser.add_option('-n', '--name', dest='name', default='findOne',
-                      help="The name of the test")
-    parser.add_option('-s', '--suite', dest='suite', 
-                      default='ec2-ebs-inRAM-single',
-                      help='The name of the test suite')
-    
-    options, args = parser.parse_args()
+def plot_results(name, title, suite, host='127.0.0.1', 
+                 database='experiment', output=None):
 
-    conn = pymongo.Connection(options.host)
+    db = pymongo.Connection(host)[database]
 
-    db = conn.experiment
-
-    query = db.configs.find_one({'suiteName': options.suite})
+    query = db.configs.find_one({'suiteName': suite})
     
     del query['_id']
     del query['suiteName']
 
-    query['name'] = options.name
+    query['name'] = name
 
     results = db.results.find(query, sort=[('numThreads', 1)])
 
@@ -94,7 +81,7 @@ def main():
 
     # plot threads vs operations
     ax = fig.add_subplot(311)
-    ax.set_title(options.title, size='x-large')
+    ax.set_title(title, size='x-large')
     ax.set_xlabel('Threads')
     ax.set_ylabel('Number of Ops/sec')
     ax.plot(allThreads, allOps)
@@ -115,8 +102,34 @@ def main():
     ax.plot(allOps, bestfit)
     ax.autoscale_view()
     
-    plt.show()
-    # End plotting code
+    if output is None:
+        plt.show()
+    else:
+        fig.savefig(output)
+
+def main():
+    parser = OptionParser(usage="%prog [options] [results-file.json]")
+    parser.add_option('-t', '--title', dest='title', default="Results",
+                      help="The title to use when labeling the graph.")
+    parser.add_option('-H', '--host', dest='host', default='127.0.0.1',
+                      help="The mongodb host to connect to")
+    parser.add_option('-n', '--name', dest='name', default='findOne',
+                      help="The name of the test")
+    parser.add_option('-s', '--suite', dest='suite', 
+                      default='ec2-ebs-inRAM-single',
+                      help='The name of the test suite')
+    parser.add_option('-d', '--database', dest='database',
+                      default='experiment',
+                      help='The name of the results database')
+    parser.add_option('-o', '--output', dest='output',
+                      default=None, 
+                      help = ('The file to save the image to.'
+                              'Omitting this argument causes the script'
+                              'to plot to the screen.'))
+    options, args = parser.parse_args()
+
+    plot_results(options.name, options.title, options.suite,
+                 options.host, options.database, options.output)
 
 if __name__ == '__main__':
     main()
