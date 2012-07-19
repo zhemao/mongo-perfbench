@@ -53,12 +53,11 @@ def send_signal(sig):
 def dblocked():
     """Determine whether a mongod process is running"""
     if platform.system() == 'Windows':
-        try:
-            f = open(lockfilepath)
-            f.close()
-            return True
-        except OSError:
-            return False
+        proc = subprocess.Popen(['tasklist', '/FI', 'IMAGENAME eq mongod.exe'], 
+                                stdout=subprocess.PIPE)
+        (out, err) = proc.communicate()
+
+        return not out.startswith('INFO: No tasks are running')
     else:
         if os.path.exists(lockfilepath) and os.path.getsize(lockfilepath) > 0:
             return send_signal(0)
