@@ -24,6 +24,7 @@ import json
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
+import pymongo
 from optparse import OptionParser
 
 def total_ops(trial):
@@ -48,16 +49,28 @@ def main():
     parser = OptionParser(usage="%prog [options] [results-file.json]")
     parser.add_option('-t', '--title', dest='title', default="Results",
                       help="The title to use when labeling the graph.")
+    parser.add_option('-H', '--host', dest='host', default='127.0.0.1',
+                      help="The mongodb host to connect to")
+    parser.add_option('-n', '--name', dest='name', default='findOne',
+                      help="The name of the test")
+    parser.add_option('-s', '--suite', dest='suite', 
+                      default='ec2-ebs-inRAM-single',
+                      help='The name of the test suite')
     
     options, args = parser.parse_args()
 
-    if len(args) > 0:
-        f = open(args[0])
-    else:
-        f = sys.stdin
+    conn = pymongo.Connection(options.host)
 
-    results = [json.loads(line.strip()) for line in f]
-    results.sort(key=lambda obj: obj['numThreads'])
+    db = conn.experiment
+
+    query = db.configs.find_one({'suiteName': options.suite})
+    
+    del query['_id']
+    del query['suiteName']
+
+    query['name'] = options.name
+
+    results = db.results.find(query, sort=[('numThreads', 1)])
 
     allThreads = []
     allOps = []
