@@ -71,9 +71,10 @@ def kill_mongod():
         pass
 
 def start_mongod():
+    mongod = os.path.expanduser('~/bin/mongod')
     conffile = os.path.expanduser('~/.mongod.conf')
     if platform.system() == 'Windows':
-        os.spawnl(os.P_NOWAIT, 'mongod', 'mongod', '-f', conffile)
+        os.spawnl(os.P_NOWAIT, mongod, mongod, '-f', conffile)
         return 0
     else:
         return subprocess.call(['mongod', '-f', conffile, '--fork'])
