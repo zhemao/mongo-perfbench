@@ -70,6 +70,14 @@ def kill_mongod():
     except AutoReconnect:
         pass
 
+def start_mongod():
+    conffile = os.path.expanduser('~/.mongod.conf')
+    if platform.system() == 'Windows':
+        os.spawnl(os.P_NOWAIT, 'mongod', 'mongod', '-f', conffile)
+        return 0
+    else:
+        return subprocess.call(['mongod', '-f', conffile, '--fork'])
+
 def main():
     # kill the mongod process if it is running
     if dblocked():
@@ -90,8 +98,7 @@ def main():
     subprocess.call(['rsync', '-avz', '--delete', dbsrc, dbdest])
 
     # restart mongod
-    conffile = os.path.expanduser('~/.mongod.conf')
-    return subprocess.call(['mongod', '-f', conffile, '--fork'])
+    return start_mongod()
 
 if __name__ == '__main__':
     fixpath()
