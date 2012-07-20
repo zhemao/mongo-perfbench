@@ -89,3 +89,54 @@ Run the runbench.py script
     python runbench.py config.json
 
 Where config.json is the json configuration file that you created in step 4.
+
+Special Instructions for Windows Setup
+
+The process of setting up the windows server as the database server is long
+and tedious. I'm leaving some documentation here on how to get everything 
+set up correctly.
+
+Setting up SSHD
+
+The first thing you need to do is set up the SSH server. On Windows this is
+rather non-trivial. First, install freeSSHD from http://www.freesshd.com/.
+Start up freeSSHD from the start menu and open the configuration menu from the
+system tray icon (in the bottom right). Go to the Authentication tab and make
+sure public key authentication is enabled. Then go to the Users tab, click the
+user you will be log in as, ensure that Shell access is enabled, and then 
+click the "Change" button. In the Change dialog, make sure that the 
+Authorization field is set to Public Key. Copy the public key you are using
+to log in from the command server and place it under 
+"C:\Program Files\freeSSHd\username", where username is replaced with the 
+username of the user you are logging in as. On 64-bit Windows installed, the
+folder will probably be in "Program Files (x86)" instead of "Program Files".
+Try logging in through SSH from the command server. If it still asks for a 
+password, try restarting freeSSHd. By this, I don't mean just stopping the SSH
+server from the server status, I mean actually stopping the freeSSHd 
+application by right clicking on its sytem tray icon and pressing unload. 
+You can then restart it from the start menu.
+
+Setting up Python and MongoDB
+
+You can download the windows binaries from http://www.mongodb.org/downloads.
+Install them in the bin directory of your home folder.
+Download and install python 2.7 from python.org. You then need to add these
+programs to your system path. Open up "My Computer" (or just "Computer") from
+the start menu and click on the "System Properties" button in the top bar.
+Then click on "Advanced System Settings" and "Environmental Variables".
+Go down to the Path variable and add C:\Users\YourUsername, C:\Python27, and
+C:\Python27\Scripts to the path (note that paths are separated by semicolons).
+
+The next step is to install the necessary python libraries. Install distribute
+by downloading and running the distribute_setup.py script from 
+http://pypi.python.org/pypi/distribute/. Then install pip from 
+http://pypi.python.org/pypi/pip/. Finally, use pip to install pymongo by
+running "pip install pymongo". 
+
+Extra Configuration on Command Server
+
+To make everything work on Windows, you'll need to add an extra configuration
+variable to the config.json file. Add a variable called "database-system" to
+the configuration file and set it to "Windows". This way, the runbench.py
+script will be able to determine the correct path to the cleanandrestart.py
+and getserverinfo.py scripts.
