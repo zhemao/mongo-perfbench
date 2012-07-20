@@ -94,27 +94,29 @@ Special Instructions for Windows Setup
 
 The process of setting up the windows server as the database server is long
 and tedious. I'm leaving some documentation here on how to get everything 
-set up correctly.
+set up correctly. 
 
 Setting up SSHD
 
 The first thing you need to do is set up the SSH server. On Windows this is
-rather non-trivial. First, install freeSSHD from http://www.freesshd.com/.
-Start up freeSSHD from the start menu and open the configuration menu from the
-system tray icon (in the bottom right). Go to the Authentication tab and make
-sure public key authentication is enabled. Then go to the Users tab, click the
-user you will be log in as, ensure that Shell access is enabled, and then 
-click the "Change" button. In the Change dialog, make sure that the 
-Authorization field is set to Public Key. Copy the public key you are using
-to log in from the command server and place it under 
-"C:\Program Files\freeSSHd\username", where username is replaced with the 
-username of the user you are logging in as. On 64-bit Windows installed, the
-folder will probably be in "Program Files (x86)" instead of "Program Files".
+rather non-trivial. First, log in to the windows machine as the user you will
+eventually be running the benchmarks as through Remote Desktop. Install 
+freeSSHD from http://www.freesshd.com/. Start up freeSSHD from the start menu 
+and open the configuration menu from the system tray icon (in the bottom right).Go to the Authentication tab and make sure public key authentication is enabled.
+Then go to the Users tab, click the user you will be log in as, ensure that 
+Shell access is enabled, and then click the "Change" button. In the Change 
+dialog, make sure that the Authorization field is set to Public Key. 
+Copy the public key you are using to log in from the command server and place 
+it under "C:\Program Files\freeSSHd\username", where username is replaced with 
+the username of the user you are logging in as. On 64-bit Windows installed, 
+the folder will probably be in "Program Files (x86)" instead of "Program Files".
 Try logging in through SSH from the command server. If it still asks for a 
 password, try restarting freeSSHd. By this, I don't mean just stopping the SSH
 server from the server status, I mean actually stopping the freeSSHd 
 application by right clicking on its sytem tray icon and pressing unload. 
-You can then restart it from the start menu.
+You can then restart it from the start menu. After finishing all this, close
+the RDP application, but do not log out. If you log out, freeSSHd will be
+closed.
 
 Setting up Python and MongoDB
 
