@@ -23,6 +23,7 @@
 
 import sys
 import os
+import getpass
 import subprocess
 import time
 from helpers import sshcall, sshpopen
@@ -111,6 +112,7 @@ def rampup(host, noisehosts, prevhosts, config):
             [dbuser, dbhost]  = dburl.split('@')
         else:
             dbuser = getpass.getuser()
+            dbhost = dburl
         
         cleanpath = expand_path('~/mongo/perfbench/cleanandrestart.py', 
                                 dbsystem, dbuser)
@@ -172,7 +174,12 @@ def run_benchmark(config):
     p = sshpopen(dburl, ['python', getinfopath],
                  stdout=subprocess.PIPE)
     (output, _) = p.communicate()
-    config['server-info'] = json.loads(output)
+    
+    try:
+        config['server-info'] = json.loads(output)
+    except ValueError:
+        print output
+        sys.exit(1)
     
     # clean up any processes left over from previous scripts
     for host in load_servers:
