@@ -29,7 +29,7 @@ from helpers import fixpath
 if platform.system() == 'Windows':
     lockfilepath = 'D:\\datadb\\mongod.lock'
 else:
-    lockfilepath = '/mnt/datadb/mongod.lock'
+    lockfilepath = '/data/db/mongod.lock'
 
 def send_signal(sig):
     """Send the signal sig to the running mongod process.
@@ -92,8 +92,8 @@ def main():
         dbsrc = '/cygdrive/d/basedb/'
         dbdest = '/cygdrive/d/datadb'
     else:
-        dbsrc = '/mnt/basedb/'
-        dbdest = '/mnt/datadb'
+        dbsrc = '/data/base'
+        dbdest = '/data/db'
 
     # sync the database back to its original state
     subprocess.call(['rsync', '-avz', '--delete', dbsrc, dbdest])
