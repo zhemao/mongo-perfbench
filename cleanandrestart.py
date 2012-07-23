@@ -92,7 +92,7 @@ def main():
         dbsrc = '/cygdrive/d/basedb/'
         dbdest = '/cygdrive/d/datadb'
     else:
-        dbsrc = '/data/base'
+        dbsrc = '/data/base/'
         dbdest = '/data/db'
 
     # sync the database back to its original state
