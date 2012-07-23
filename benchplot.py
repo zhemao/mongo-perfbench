@@ -39,37 +39,36 @@ def summarize_data(data):
         name = 'update'
     numThreads = data['numThreads']
     numTrials = data['numTrials']
-    avgops = sum([total_ops(trial) for trial in data['trials']]) / numTrials
-    avglat = sum([trial[name + 'LatencyAverageMs'] 
-                    for trial in data['trials']]) / numTrials
-                    
-    return numThreads, avgops, avglat
-
-def plot_results(name, title, suite, host='127.0.0.1', 
-                 database='experiment', output=None):
-
-    db = pymongo.Connection(host)[database]
-
-    query = db.configs.find_one({'suiteName': suite})
     
-    del query['_id']
-    del query['suiteName']
+    ops = np.array([total_ops(trial) for trial in data['trials']])
+    lat = np.array([trial[name + 'LatencyAverageMs'] 
+                        for trial in data['trials']])
 
-    query['name'] = name
+    avgops = ops.mean()
+    opserr = ops.std()
 
-    results = db.results.find(query, sort=[('numThreads', 1)])
+    avglat = lat.mean()
+    laterr = lat.std()
+                    
+    return numThreads, avgops, opserr, avglat, laterr
 
+def plot_results(results, title='results', output=None):
     allThreads = []
     allOps = []
     allLatency = []
 
+    allOpsErr = []
+    allLatencyErr = []
+
     # go through and append the thread #, ops, and latency 
     # to the proper lists
     for data in results:
-        threads, ops, lat = summarize_data(data)
+        threads, ops, opserr, lat, laterr = summarize_data(data)
         allThreads.append(threads)
         allOps.append(ops)
+        allOpsErr.append(opserr)
         allLatency.append(lat)
+        allLatencyErr.append(laterr)
 
     coefficients = np.polyfit(allOps, allLatency, 1)
     equation = np.poly1d(coefficients)
@@ -84,14 +83,14 @@ def plot_results(name, title, suite, host='127.0.0.1',
     ax.set_title(title, size='x-large')
     ax.set_xlabel('Threads')
     ax.set_ylabel('Number of Ops/sec')
-    ax.plot(allThreads, allOps)
+    ax.errorbar(allThreads, allOps, yerr=allOpsErr)
     ax.autoscale_view()
     
     # plot threads vs latency
     ax = fig.add_subplot(312)
     ax.set_xlabel('Threads')
     ax.set_ylabel('Latency (microseconds)')
-    ax.plot(allThreads, allLatency)
+    ax.errorbar(allThreads, allLatency, yerr=allLatencyErr)
     ax.autoscale_view()
 
     # plot operations vs latency
@@ -107,8 +106,35 @@ def plot_results(name, title, suite, host='127.0.0.1',
     else:
         fig.savefig(output)
 
+
+def plot_database(name, title, suite, host='127.0.0.1', 
+                  database='experiment', output=None):
+
+    db = pymongo.Connection(host)[database]
+
+    query = db.configs.find_one({'suiteName': suite})
+    
+    del query['_id']
+    del query['suiteName']
+
+    query['name'] = name
+
+    results = db.results.find(query, sort=[('numThreads', 1)])
+
+    plot_results(results, title, output)
+
+def plot_file(fname, title, output=None):
+    f = open(fname)
+
+    results = [json.loads(line.strip()) for line in f]
+    results.sort(key=lambda obj: obj['numThreads'])
+
+    plot_results(results, title, output)
+    
 def main():
     parser = OptionParser(usage="%prog [options] [results-file.json]")
+    parser.add_option('-f', '--file', dest='file', default=None,
+                      help="Results file to plot from")
     parser.add_option('-t', '--title', dest='title', default="Results",
                       help="The title to use when labeling the graph.")
     parser.add_option('-H', '--host', dest='host', default='127.0.0.1',
@@ -127,9 +153,12 @@ def main():
                               'Omitting this argument causes the script'
                               'to plot to the screen.'))
     options, args = parser.parse_args()
-
-    plot_results(options.name, options.title, options.suite,
-                 options.host, options.database, options.output)
+    
+    if options.file:
+        plot_file(options.file, options.title)
+    else:
+        plot_database(options.name, options.title, options.suite,
+                      options.host, options.database, options.output)
 
 if __name__ == '__main__':
     main()
