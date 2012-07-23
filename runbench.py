@@ -30,6 +30,7 @@ from helpers import sshcall, sshpopen
 import json
 from optparse import OptionParser
 import socket
+from benchplot import plot_database
 
 def start_hold(host, baseconfig):
     """Start a hold operation on host.
@@ -193,6 +194,21 @@ def run_benchmark(config):
     # stop all the hold processes
     for host in load_servers:
         sshcall(host, 'python ~/mongo/perfbench/stopexperiment.py')
+
+    plotdir = config.get('plotdir')
+
+    if plotdir:
+        resurl = config['results-server']
+        name = config['operation']
+        title = name + " results"
+        suite = config['suite']
+        
+        if not os.path.isdir(plotdir):
+            os.mkdir(plotdir, 0700)
+        
+        output = os.path.join(plotdir, operation + '-results.png')
+
+        plot_database(name, title, suite, host=resurl, output=output)
 
 def main():
     parser = OptionParser(usage="%prog [options] configfile.json")
