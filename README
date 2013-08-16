@@ -1,4 +1,14 @@
-How to use performance benchmarking scripts
+MongoDB Performance Benchmark Scripts
+=====================================
+
+This repo contains a set of MongoDB benchmarking scripts I wrote while 
+interning at 10gen in the summer of 2012. Since there doesn't seem to be
+much change of these scripts being merged into MongoDB master, I've decided
+to separate them out into their own repo in the hopes that others will find
+them useful.
+
+Instructions
+-------------
 
 Step 1: Mongodb setup
 
@@ -11,10 +21,11 @@ See http://www.mongodb.org/display/DOCS/File+Based+Configuration for the syntax.
 
 Step 2: Script installation
 
-Clone the mongodb repo (with the perfbench changes) to ~/mongo on each of the
-servers. The following command should do it.
+Clone the mongo-perfbench repo to ~/mongo/perfbench on each of the
+servers. The following commands should do it.
 
-    git clone https://github.com/zhemao/mongo.git -b perfbench2 ~/mongo
+	mkdir ~/mongo
+    git clone https://github.com/zhemao/mongo-perfbench.git ~/mongo/perfbench
 
 Step 3: SSH Setup
 
