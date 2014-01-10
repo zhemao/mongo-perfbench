@@ -3,7 +3,7 @@ MongoDB Performance Benchmark Scripts
 
 This repo contains a set of MongoDB benchmarking scripts I wrote while 
 interning at 10gen in the summer of 2012. Since there doesn't seem to be
-much change of these scripts being merged into MongoDB master, I've decided
+much chance of these scripts being merged into MongoDB master, I've decided
 to separate them out into their own repo in the hopes that others will find
 them useful.
 
@@ -24,7 +24,7 @@ Step 2: Script installation
 Clone the mongo-perfbench repo to ~/mongo/perfbench on each of the
 servers. The following commands should do it.
 
-	mkdir ~/mongo
+    mkdir ~/mongo
     git clone https://github.com/zhemao/mongo-perfbench.git ~/mongo/perfbench
 
 Step 3: SSH Setup
@@ -113,7 +113,8 @@ The first thing you need to do is set up the SSH server. On Windows this is
 rather non-trivial. First, log in to the windows machine as the user you will
 eventually be running the benchmarks as through Remote Desktop. Install 
 freeSSHD from http://www.freesshd.com/. Start up freeSSHD from the start menu 
-and open the configuration menu from the system tray icon (in the bottom right).Go to the Authentication tab and make sure public key authentication is enabled.
+and open the configuration menu from the system tray icon (in the bottom right).
+Go to the Authentication tab and make sure public key authentication is enabled.
 Then go to the Users tab, click the user you will be log in as, ensure that 
 Shell access is enabled, and then click the "Change" button. In the Change 
 dialog, make sure that the Authorization field is set to Public Key. 
